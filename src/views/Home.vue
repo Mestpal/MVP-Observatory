@@ -1,30 +1,31 @@
 <template>
-  <div class="home">
-    <div>
-      Here some data will be shown
-    </div>
-
-    <div>
-      Count: {{ $store.state.count }}
-    </div>
-
-    <button @click="increment">
-      Add
-    </button>
-
-    <button @click="getApod">
-      Get Images
-    </button>
-  </div>
+  <v-row>
+    <v-col cols="12">
+      <v-card>
+        <v-card-text>
+          {{ apodData }}
+        </v-card-text>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+import isEmpty from 'lodash/isEmpty'
 
 export default {
   name: 'Home',
+  computed: {
+    ...mapGetters([
+      'apodData'
+    ])
+  },
+  mounted () {
+    if(isEmpty(this.apodData)) this.getApod()
+  },
   methods: {
-  ...mapActions([
+    ...mapActions([
       'increment',
       'getApod'
     ])

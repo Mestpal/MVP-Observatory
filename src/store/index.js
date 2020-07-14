@@ -9,6 +9,9 @@ export default new Vuex.Store({
     count: 0,
     apod: {}
   },
+  getters: {
+    apodData: (state) => (state.apod)
+  },
   mutations: {
     increment (state) {
       state.count++
