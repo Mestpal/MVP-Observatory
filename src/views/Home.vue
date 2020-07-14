@@ -11,18 +11,23 @@
     <button @click="increment">
       Add
     </button>
+
+    <button @click="getApod">
+      Get Images
+    </button>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Home',
   methods: {
-    increment() {
-      this.$store.commit('increment')
-      console.log(this.$store.state.count)
-    }
+  ...mapActions([
+      'increment',
+      'getApod'
+    ])
   }
 }
 </script>
