@@ -1,0 +1,29 @@
+<template>
+  <v-row
+    align="center"
+    justify="center"
+    no-gutters
+  >
+    <v-img
+      v-bind="$attrs"
+      contain
+      lazy-src="https://via.placeholder.com/960x960/0000FF?text=Loading"
+      max-height="960"
+    >
+      <template #placeholder>
+        <v-row
+          class="fill-height"
+          align="center"
+          justify="center"
+        >
+          <v-col cols="12">
+            <v-progress-circular
+              color="amber"
+              indeterminate
+            />
+          </v-col>
+        </v-row>
+      </template>
+    </v-img>
+  </v-row>
+</template>
