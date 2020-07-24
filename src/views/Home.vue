@@ -1,8 +1,6 @@
 <template>
   <v-row no-gutters>
-    <v-col cols="12">
-      <image-full-frame :src="imageSrc"/>
-    </v-col>
+    <image-full-frame :src="imageSrc"/>
   </v-row>
 </template>
 

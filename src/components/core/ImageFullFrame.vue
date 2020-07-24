@@ -1,28 +1,20 @@
 <template>
-  <v-row
-    align="center"
-    justify="center"
-    no-gutters
-  >
+  <v-col cols="12">
     <v-img
       v-bind="$attrs"
       contain
-      height="100vh"
+      max-height="90vh"
+      max-width="100vw"
     >
       <template #placeholder>
-        <v-row
-          class="fill-height"
-          align="center"
-          justify="center"
-        >
-          <v-col cols="12">
-            <v-progress-circular
-              color="amber"
-              indeterminate
-            />
-          </v-col>
+        <v-row>
+          <v-skeleton-loader
+            type="image"
+            min-width="100vw"
+            min-height="90vh"
+          />
         </v-row>
       </template>
     </v-img>
-  </v-row>
+  </v-col>
 </template>
