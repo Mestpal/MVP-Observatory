@@ -1,6 +1,6 @@
 <template>
   <v-row no-gutters>
-    <image-full-frame :src="imageSrc"/>
+    <image-full-frame :data="apodData"/>
   </v-row>
 </template>
 
@@ -19,9 +19,6 @@ export default {
     ...mapGetters([
       'apodData'
     ]),
-    imageSrc () {
-      return  this.apodData.hdurl || this.apodData.url || ''
-    }
   },
   mounted () {
     if(isEmpty(this.apodData)) this.getApod()
