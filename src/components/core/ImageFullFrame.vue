@@ -7,8 +7,7 @@
     <v-img
       v-bind="$attrs"
       contain
-      lazy-src="https://via.placeholder.com/960x960/0000FF?text=Loading"
-      max-height="960"
+      height="100vh"
     >
       <template #placeholder>
         <v-row
