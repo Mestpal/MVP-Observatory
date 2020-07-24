@@ -37,7 +37,7 @@ export default new Vuex.Store({
           api_key: process.env.VUE_APP_NASA_APIKEY
         }
       })
-      commit('updateApod', apod)
+      commit('updateApod', apod.data)
     }
   },
   plugins: [vuexLocal.plugin]
