@@ -12,25 +12,22 @@ const vuexLocal = new VuexPersistence({
 
 export default new Vuex.Store({
   state: {
-    count: 0,
-    apod: {}
+    apod: {},
+    manifest: {}
   },
   getters: {
-    apodData: (state) => (state.apod)
+    apodData: (state) => (state.apod),
+    manifest: (state) => (state.manifest)
   },
   mutations: {
-    increment (state) {
-      state.count++
-    },
     updateApod (state, data) {
       state.apod = data
+    },
+    updateManifest (state, data) {
+      state.manifest = data
     }
   },
   actions: {
-    increment({ commit }) {
-      commit('increment')
-    },
-
     async getApod ({ commit }) {
       const apod = await axios.get(`${process.env.VUE_APP_NASA_API_BASE_URL}planetary/apod`, {
         params: {
@@ -38,6 +35,15 @@ export default new Vuex.Store({
         }
       })
       commit('updateApod', apod.data)
+    },
+    async roverManifest ({ commit }, roverName) {
+      const manifest = await axios.get(`${process.env.VUE_APP_NASA_API_BASE_URL}mars-photos/api/v1/manifests/${roverName}`, {
+        params: {
+          api_key: process.env.VUE_APP_NASA_APIKEY
+        }
+      })
+      console.log(manifest)
+      commit('updateManifest', manifest)
     }
   },
   plugins: [vuexLocal.plugin]

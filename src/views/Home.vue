@@ -21,7 +21,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'apodData'
+      'apodData',
+      'manifest'
     ]),
     imageApodSrc () {
       return  this.apodData.url || this.apodData.hdurl || ''
@@ -29,10 +30,12 @@ export default {
   },
   mounted () {
     if(isEmpty(this.apodData)) this.getApod()
+    this.roverManifest('curiosity')
   },
   methods: {
     ...mapActions([
-      'getApod'
+      'getApod',
+      'roverManifest'
     ])
   }
 }
