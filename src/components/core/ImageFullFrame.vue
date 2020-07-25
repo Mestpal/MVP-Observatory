@@ -3,7 +3,7 @@
     <v-card>
       <v-hover #default="{ hover }">
         <v-img
-          :src="imageSrc"
+          v-bind="$attrs"
           max-height="95vh"
           max-width="100vw"
           @load="checkLoad"
@@ -13,14 +13,13 @@
               <v-skeleton-loader
                 type="image"
                 min-width="100vw"
-                min-height="90vh"
+                min-height="95vh"
               />
             </v-row>
           </template>
 
           <v-row
             align="end"
-            height="50%"
             no-gutters
           >
             <v-slide-y-reverse-transition v-if="loaded">
@@ -52,11 +51,6 @@ export default {
   data () {
     return {
       loaded: false
-    }
-  },
-  computed: {
-    imageSrc () {
-      return  this.data.hdurl || this.data.url || ''
     }
   },
   methods: {
