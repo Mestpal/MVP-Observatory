@@ -5,6 +5,7 @@
         :src="imageSrc"
         max-height="100vh"
         max-width="100vw"
+        @load="checkLoad"
       >
         <template #placeholder>
           <v-row>
@@ -17,12 +18,15 @@
         </template>
 
         <v-expand-transition>
-          <div
-            v-if="hover"
-            class="d-flex orange darken-2 fill-height"
+          <v-overlay
+            v-if="hover && loaded"
+            :absolute="true"
           >
-            {{ data.explanation }}
-          </div>
+            <p
+              class="d-flex darken-2"
+              v-text="data.explanation"
+            />
+          </v-overlay>
         </v-expand-transition>
       </v-img>
     </v-hover>
@@ -31,10 +35,15 @@
 
 <script>
 export default {
+  data () {
+    return {
+      loaded: false
+    }
+  },
   props: {
     data: {
       type: Object,
-      required: true,
+      required: true
     }
   },
   computed: {
@@ -45,6 +54,9 @@ export default {
   methods: {
     hoverTest (value) {
       console.log('value', value)
+    },
+    checkLoad () {
+      this.loaded = true
     }
   }
 }
