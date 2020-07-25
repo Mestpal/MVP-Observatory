@@ -1,49 +1,57 @@
 <template>
   <v-col cols="12">
-    <v-hover #default="{ hover }">
-      <v-img
-        :src="imageSrc"
-        max-height="100vh"
-        max-width="100vw"
-        @load="checkLoad"
-      >
-        <template #placeholder>
-          <v-row>
-            <v-skeleton-loader
-              type="image"
-              min-width="100vw"
-              min-height="90vh"
-            />
-          </v-row>
-        </template>
+    <v-card>
+      <v-hover #default="{ hover }">
+        <v-img
+          :src="imageSrc"
+          max-height="95vh"
+          max-width="100vw"
+          @load="checkLoad"
+        >
+          <template #placeholder>
+            <v-row>
+              <v-skeleton-loader
+                type="image"
+                min-width="100vw"
+                min-height="90vh"
+              />
+            </v-row>
+          </template>
 
-        <v-expand-transition>
-          <v-overlay
-            v-if="hover && loaded"
-            :absolute="true"
+          <v-row
+            align="end"
+            height="50%"
+            no-gutters
           >
-            <p
-              class="d-flex darken-2"
-              v-text="data.explanation"
-            />
-          </v-overlay>
-        </v-expand-transition>
-      </v-img>
-    </v-hover>
+            <v-slide-y-reverse-transition v-if="loaded">
+              <v-overlay
+                v-if="hover"
+                :absolute="true"
+              >
+                <p
+                  class="d-flex darken-4 ma-4"
+                  v-text="data.explanation"
+                />
+              </v-overlay>
+            </v-slide-y-reverse-transition>
+          </v-row>
+        </v-img>
+      </v-hover>
+    </v-card>
   </v-col>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      loaded: false
-    }
-  },
   props: {
     data: {
       type: Object,
       required: true
+    }
+  },
+  data () {
+    return {
+      loaded: false
     }
   },
   computed: {
