@@ -2,7 +2,8 @@
   <v-row no-gutters>
     <image-full-frame
       v-if="Object.keys(apodData).length"
-      :src="imageSrc"
+      :src="imageApodSrc"
+      :description="apodData.explanation"
     />
   </v-row>
 </template>
@@ -22,8 +23,8 @@ export default {
     ...mapGetters([
       'apodData'
     ]),
-    imageSrc () {
-      return  this.data.url || this.data.hdurl || ''
+    imageApodSrc () {
+      return  this.apodData.url || this.apodData.hdurl || ''
     }
   },
   mounted () {

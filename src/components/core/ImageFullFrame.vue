@@ -29,7 +29,7 @@
               >
                 <p
                   class="d-flex darken-4 ma-4"
-                  v-text="data.explanation"
+                  v-text="$attrs.description"
                 />
               </v-overlay>
             </v-slide-y-reverse-transition>
@@ -42,21 +42,12 @@
 
 <script>
 export default {
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
       loaded: false
     }
   },
   methods: {
-    hoverTest (value) {
-      console.log('value', value)
-    },
     checkLoad () {
       this.loaded = true
     }
