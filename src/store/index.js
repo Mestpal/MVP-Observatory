@@ -42,8 +42,7 @@ export default new Vuex.Store({
           api_key: process.env.VUE_APP_NASA_APIKEY
         }
       })
-      console.log(manifest)
-      commit('updateManifest', manifest)
+      commit('updateManifest', manifest.data.photo_manifest)
     }
   },
   plugins: [vuexLocal.plugin]
