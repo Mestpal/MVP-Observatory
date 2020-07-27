@@ -1,6 +1,6 @@
 <template>
   <v-row no-gutters>
-    <span v-if="Object.keys(apodData).length">
+    <v-col cols="12" v-if="Object.keys(apodData).length">
       <image-full-frame
         v-if="!isVideo"
         :description="apodData.explanation"
@@ -11,7 +11,7 @@
         :description="apodData.explanation"
         :src="apodSrc"
       />
-    </span>
+    </v-col>
   </v-row>
 </template>
 

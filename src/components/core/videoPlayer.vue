@@ -1,6 +1,12 @@
 <template>
-  <v-col cols="12">
-    <v-card>
+  <v-row
+    no-gutters
+    justify="center"
+  >
+    <v-card
+      height="90vh"
+      min-width="60vw"
+    >
       <vue-plyr>
         <div class="plyr__video-embed">
           <iframe
@@ -11,8 +17,11 @@
           />
         </div>
       </vue-plyr>
+      <v-card-text>
+        Text
+      </v-card-text>
     </v-card>
-  </v-col>
+  </v-row>
 </template>
 
 <script>
