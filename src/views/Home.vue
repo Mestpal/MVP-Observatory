@@ -10,7 +10,7 @@
         :player-title="apodTitle"
         :src="apodSrc"
       />
-      <video-player
+      <video-component
         v-else
         :description="apodData.explanation"
         :player-title="apodTitle"
@@ -25,13 +25,13 @@ import { mapGetters, mapActions } from 'vuex'
 import isEmpty from 'lodash/isEmpty'
 
 import imageFullFrame from '@/components/core/ImageFullFrame'
-import videoPlayer from '@/components/core/videoPlayer'
+import videoComponent from '@/components/core/videoPlayer'
 
 export default {
   name: 'Home',
   components: {
     imageFullFrame,
-    videoPlayer
+    videoComponent
   },
   data() {
     return {
