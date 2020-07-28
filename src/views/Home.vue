@@ -1,14 +1,19 @@
 <template>
   <v-row no-gutters>
-    <v-col cols="12" v-if="Object.keys(apodData).length">
+    <v-col
+      v-if="Object.keys(apodData).length"
+      cols="12"
+    >
       <image-full-frame
         v-if="!isVideo"
         :description="apodData.explanation"
+        :player-title="apodTitle"
         :src="apodSrc"
       />
       <video-player
         v-else
         :description="apodData.explanation"
+        :player-title="apodTitle"
         :src="apodSrc"
       />
     </v-col>
@@ -27,6 +32,11 @@ export default {
   components: {
     imageFullFrame,
     videoPlayer
+  },
+  data() {
+    return {
+      apodTitle: "NASA Image of the Day"
+    }
   },
   computed: {
     ...mapGetters([

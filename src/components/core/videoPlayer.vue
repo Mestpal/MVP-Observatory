@@ -1,8 +1,11 @@
 <template>
   <v-row no-gutters>
     <v-card>
+      <v-card-title v-if="playerTitle">
+        <h2 v-text="playerTitle" />
+      </v-card-title>
       <v-card-text>
-        <v-row>
+        <v-row no-gutters>
           <v-col md="7">
             <vue-plyr>
               <div class="plyr__video-embed">
@@ -37,6 +40,10 @@ export default {
     description: {
       type: String,
       required: true
+    },
+    playerTitle: {
+      type: String,
+      default: null
     }
   }
 }
