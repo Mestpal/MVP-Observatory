@@ -27,6 +27,7 @@
             <v-overlay
               v-if="hover"
               :absolute="true"
+              :opacity="0.54"
             >
               <p
                 class="d-flex darken-4 ma-4"
