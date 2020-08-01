@@ -1,9 +1,9 @@
 <template>
-  <v-row no-gutters>
-    <v-col
-      v-if="Object.keys(apodData).length"
-      cols="12"
-    >
+  <v-row
+    v-if="Object.keys(apodData).length"
+    no-gutters
+  >
+    <v-col cols="12">
       <image-full-frame
         v-if="!isVideo"
         :description="apodData.explanation"
@@ -15,6 +15,14 @@
         :description="apodData.explanation"
         :player-title="apodTitle"
         :src="apodSrc"
+      />
+    </v-col>
+    <v-col cols="12">
+      <v-date-picker
+        v-model="picker"
+        :reactive="true"
+        :show-current="true"
+        width="100vw"
       />
     </v-col>
   </v-row>
@@ -35,7 +43,8 @@ export default {
   },
   data() {
     return {
-      apodTitle: "NASA Image of the Day"
+      apodTitle: "NASA Image of the Day",
+      picker: new Date().toISOString().substr(0, 10)
     }
   },
   computed: {
