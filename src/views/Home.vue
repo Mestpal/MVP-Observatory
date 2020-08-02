@@ -49,23 +49,23 @@ export default {
     return {
       apodTitle: "NASA Image of the Day",
       disabled: false,
-      minDateAPOD: "2015-01-01",
-      selectedDate: null
+      minDateAPOD: "2015-01-01"
     }
   },
   computed: {
     ...mapGetters([
-      'apodData'
+      'apodData',
+      'selectedApodDate'
     ]),
     apodSrc () {
       return  this.apodData.url || this.apodData.hdurl || ''
     },
     datePickerDate: {
       get () {
-        return this.selectedDate || this.today
+        return this.selectedApodDate || this.today
       },
       set (newDate) {
-        this.selectedDate = newDate
+        this.setApodDate(newDate)
       }
     },
     isVideo () {
@@ -80,11 +80,12 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getApod'
+      'getApod',
+      'setApodDate'
     ]),
     async onChangeDate () {
       this.disabled = true
-      await this.getApod(this.selectedDate)
+      await this.getApod(this.selectedApodDate)
       this.disabled = false
     }
   }

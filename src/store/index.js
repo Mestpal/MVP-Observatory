@@ -12,14 +12,19 @@ const vuexLocal = new VuexPersistence({
 
 export default new Vuex.Store({
   state: {
-    apod: {}
+    apod: {},
+    dateApod: null
   },
   getters: {
-    apodData: (state) => (state.apod)
+    apodData: (state) => (state.apod),
+    selectedApodDate: (state) => (state.dateApod)
   },
   mutations: {
-    updateApod (state, data) {
-      state.apod = data
+    updateApod (state, date) {
+      state.apod = date
+    },
+    updateDateApod (state, date) {
+      state.dateApod = date
     }
   },
   actions: {
@@ -36,6 +41,9 @@ export default new Vuex.Store({
         params: params
       })
       commit('updateApod', apod.data)
+    },
+    setApodDate ({ commit }, date) {
+      commit('updateDateApod', date)
     }
   },
   plugins: [vuexLocal.plugin]
