@@ -22,7 +22,10 @@
             class="pl-2 text-body-1"
             md="5"
           >
-            <p v-text="description" />
+            <p
+              class="text-justify"
+              v-text="description"
+            />
           </v-col>
         </v-row>
       </v-card-text>

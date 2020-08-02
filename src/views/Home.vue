@@ -1,9 +1,9 @@
 <template>
-  <v-row no-gutters>
-    <v-col
-      v-if="Object.keys(apodData).length"
-      cols="12"
-    >
+  <v-row
+    v-if="Object.keys(apodData).length"
+    no-gutters
+  >
+    <v-col cols="12">
       <image-full-frame
         v-if="!isVideo"
         :description="apodData.explanation"
@@ -15,6 +15,18 @@
         :description="apodData.explanation"
         :player-title="apodTitle"
         :src="apodSrc"
+      />
+    </v-col>
+    <v-col cols="12">
+      <v-date-picker
+        v-model="datePickerDate"
+        :disabled="disabled"
+        :max="today"
+        :min="minDateAPOD"
+        :reactive="true"
+        :show-current="true"
+        width="100vw"
+        @change="onChangeDate"
       />
     </v-col>
   </v-row>
@@ -35,18 +47,32 @@ export default {
   },
   data() {
     return {
-      apodTitle: "NASA Image of the Day"
+      apodTitle: "NASA Image of the Day",
+      disabled: false,
+      minDateAPOD: "2015-01-01"
     }
   },
   computed: {
     ...mapGetters([
-      'apodData'
+      'apodData',
+      'selectedApodDate'
     ]),
     apodSrc () {
       return  this.apodData.url || this.apodData.hdurl || ''
     },
+    datePickerDate: {
+      get () {
+        return this.selectedApodDate || this.today
+      },
+      set (newDate) {
+        this.setApodDate(newDate)
+      }
+    },
     isVideo () {
       return this.apodData.media_type === 'video'
+    },
+    today () {
+      return new Date().toISOString().substr(0, 10)
     }
   },
   mounted () {
@@ -54,8 +80,14 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getApod'
-    ])
+      'getApod',
+      'setApodDate'
+    ]),
+    async onChangeDate () {
+      this.disabled = true
+      await this.getApod(this.selectedApodDate)
+      this.disabled = false
+    }
   }
 }
 </script>

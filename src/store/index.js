@@ -12,32 +12,38 @@ const vuexLocal = new VuexPersistence({
 
 export default new Vuex.Store({
   state: {
-    count: 0,
-    apod: {}
+    apod: {},
+    dateApod: null
   },
   getters: {
-    apodData: (state) => (state.apod)
+    apodData: (state) => (state.apod),
+    selectedApodDate: (state) => (state.dateApod)
   },
   mutations: {
-    increment (state) {
-      state.count++
+    updateApod (state, date) {
+      state.apod = date
     },
-    updateApod (state, data) {
-      state.apod = data
+    updateDateApod (state, date) {
+      state.dateApod = date
     }
   },
   actions: {
-    increment({ commit }) {
-      commit('increment')
-    },
+    async getApod ({ commit }, date) {
+      const params = {
+        api_key: process.env.VUE_APP_NASA_APIKEY,
+      }
 
-    async getApod ({ commit }) {
+      if (date) {
+        params.date = date
+      }
+
       const apod = await axios.get(`${process.env.VUE_APP_NASA_API_BASE_URL}planetary/apod`, {
-        params: {
-          api_key: process.env.VUE_APP_NASA_APIKEY
-        }
+        params: params
       })
       commit('updateApod', apod.data)
+    },
+    setApodDate ({ commit }, date) {
+      commit('updateDateApod', date)
     }
   },
   plugins: [vuexLocal.plugin]
