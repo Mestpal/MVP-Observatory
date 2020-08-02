@@ -30,7 +30,7 @@
               :opacity="0.54"
             >
               <p
-                class="d-flex darken-4 ma-4"
+                class="d-flex darken-4 ma-4 text-justify"
                 v-text="description"
               />
             </v-overlay>
