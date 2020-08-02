@@ -30,7 +30,7 @@
           <v-overlay
             v-if="isHover && !isHoverOut"
             :absolute="true"
-            :opacity="0.54"
+            :opacity="0.84"
           >
             <v-row>
               <v-col>

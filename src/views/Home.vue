@@ -17,10 +17,37 @@
         :src="apodSrc"
       />
     </v-col>
+
+    <!-- This v-col can be a new button-row component !!! -->
+    <v-col
+      class="pa-2"
+      cols="12"
+    >
+      <v-btn
+        v-if="minDateAPOD !== datePickerDate"
+        @click="onClickPrev"
+      >
+        Previous
+      </v-btn>
+      <v-btn
+        v-if="today !== datePickerDate"
+        @click="onClickToday"
+      >
+        Today
+      </v-btn>
+      <v-btn
+        v-if="today !== datePickerDate"
+        @click="onClickNext"
+      >
+        Next
+      </v-btn>
+    </v-col>
+
     <v-col cols="12">
       <v-date-picker
         v-model="datePickerDate"
         :disabled="disabled"
+        :first-day-of-week="1"
         :max="today"
         :min="minDateAPOD"
         :reactive="true"
@@ -87,6 +114,16 @@ export default {
       this.disabled = true
       await this.getApod(this.selectedApodDate)
       this.disabled = false
+    },
+    onClickPrev () {
+
+    },
+    onClickToday () {
+      this.datePickerDate = this.today
+      this.onChangeDate()
+    },
+    onClickNext () {
+
     }
   }
 }

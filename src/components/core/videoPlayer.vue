@@ -6,7 +6,11 @@
       </v-card-title>
       <v-card-text>
         <v-row no-gutters>
-          <v-col md="7">
+          <v-col
+            class="pr-2"
+            cols="12"
+            md="6"
+          >
             <vue-plyr>
               <div class="plyr__video-embed">
                 <iframe
@@ -20,7 +24,8 @@
           </v-col>
           <v-col
             class="pl-2 text-body-1"
-            md="5"
+            cols="12"
+            md="6"
           >
             <p
               class="text-justify"
