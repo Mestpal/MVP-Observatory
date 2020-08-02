@@ -1,4 +1,5 @@
 import axios from 'axios'
+import isMobile from 'is-mobile'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
@@ -13,10 +14,11 @@ const vuexLocal = new VuexPersistence({
 export default new Vuex.Store({
   state: {
     apod: {},
-    dateApod: null
+    dateApod: null,
   },
   getters: {
     apodData: (state) => (state.apod),
+    isMobileBrowser: () => (isMobile()),
     selectedApodDate: (state) => (state.dateApod)
   },
   mutations: {
