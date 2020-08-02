@@ -6,14 +6,14 @@
     <v-hover #default="{ hover }">
       <v-img
         :src="src"
-        max-height="80vh"
+        max-height="75vh"
         max-width="100vw"
       >
         <template #placeholder>
           <v-row no-gutters>
             <v-skeleton-loader
               type="image"
-              min-height="80vh"
+              height="80vh"
               min-width="100vw"
             />
           </v-row>
