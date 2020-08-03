@@ -23,24 +23,29 @@
       class="pa-2"
       cols="12"
     >
-      <v-btn
-        v-if="minDateAPOD !== datePickerDate"
-        @click="onClickPrev"
-      >
-        Previous
-      </v-btn>
-      <v-btn
-        v-if="today !== datePickerDate"
-        @click="onClickToday"
-      >
-        Today
-      </v-btn>
-      <v-btn
-        v-if="today !== datePickerDate"
-        @click="onClickNext"
-      >
-        Next
-      </v-btn>
+      <v-col cols="8">
+        <v-btn
+          v-if="minDateAPOD !== datePickerDate"
+          class="mx-2"
+          @click="onClickPrev"
+        >
+          Previous
+        </v-btn>
+        <v-btn
+          v-if="today !== datePickerDate"
+          class="mx-2"
+          @click="onClickToday"
+        >
+          Today
+        </v-btn>
+        <v-btn
+          v-if="today !== datePickerDate"
+          class="mx-2"
+          @click="onClickNext"
+        >
+          Next
+        </v-btn>
+      </v-col>
     </v-col>
 
     <v-col cols="12">
@@ -62,6 +67,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import isEmpty from 'lodash/isEmpty'
+import moment from 'moment'
 
 import imageFullFrame from '@/components/core/ImageFullFrame'
 import videoComponent from '@/components/core/videoPlayer'
@@ -99,10 +105,11 @@ export default {
       return this.apodData.media_type === 'video'
     },
     today () {
-      return new Date().toISOString().substr(0, 10)
+      return moment().toISOString().substr(0, 10)
     }
   },
   mounted () {
+    if (!this.datePickerDate) this.datePickerDate = this.today
     if(isEmpty(this.apodData)) this.getApod()
   },
   methods: {
@@ -115,15 +122,25 @@ export default {
       await this.getApod(this.selectedApodDate)
       this.disabled = false
     },
+    onClickNext () {
+      const nextDate = moment(this.datePickerDate, 'YYYY-MM-DD').hour(23)
+        .add(1, 'days')
+        .toISOString()
+        .substr(0, 10)
+      this.datePickerDate = nextDate
+      this.onChangeDate()
+    },
     onClickPrev () {
-
+      const prevDate = moment(this.datePickerDate, 'YYYY-MM-DD').hour(23)
+        .subtract(1, 'days')
+        .toISOString()
+        .substr(0, 10)
+      this.datePickerDate = prevDate
+      this.onChangeDate()
     },
     onClickToday () {
       this.datePickerDate = this.today
       this.onChangeDate()
-    },
-    onClickNext () {
-
     }
   }
 }
