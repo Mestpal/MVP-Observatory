@@ -10,7 +10,7 @@
       >
         <v-btn
           v-if="item.condition"
-          class="mx-2"
+          class="mx-4 my-2"
           @click="launchEvent(item.event)"
           v-text="item.text"
         />
