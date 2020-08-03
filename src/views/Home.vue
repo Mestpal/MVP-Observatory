@@ -1,9 +1,9 @@
 <template>
-  <v-row
-    v-if="Object.keys(apodData).length"
-    no-gutters
-  >
-    <v-col cols="12">
+  <v-row no-gutters>
+    <v-col
+      v-if="Object.keys(apodData).length"
+      cols="12"
+    >
       <image-full-frame
         v-if="!isVideo"
         :description="apodData.explanation"
@@ -18,35 +18,12 @@
       />
     </v-col>
 
-    <!-- This v-col can be a new button-row component !!! -->
-    <v-col
-      class="pa-2"
-      cols="12"
-    >
-      <v-col cols="8">
-        <v-btn
-          v-if="minDateAPOD !== datePickerDate"
-          class="mx-2"
-          @click="onClickPrev"
-        >
-          Previous
-        </v-btn>
-        <v-btn
-          v-if="today !== datePickerDate"
-          class="mx-2"
-          @click="onClickToday"
-        >
-          Today
-        </v-btn>
-        <v-btn
-          v-if="today !== datePickerDate"
-          class="mx-2"
-          @click="onClickNext"
-        >
-          Next
-        </v-btn>
-      </v-col>
-    </v-col>
+    <buttons-row
+      :items="buttons"
+      @today="onClickToday"
+      @prevDay="onClickPrev"
+      @nextDay="onClickNext"
+    />
 
     <v-col cols="12">
       <v-date-picker
@@ -69,16 +46,18 @@ import { mapGetters, mapActions } from 'vuex'
 import isEmpty from 'lodash/isEmpty'
 import moment from 'moment'
 
+import buttonsRow from '@/components/core/buttonsRow'
 import imageFullFrame from '@/components/core/ImageFullFrame'
 import videoComponent from '@/components/core/videoPlayer'
 
 export default {
   name: 'Home',
   components: {
+    buttonsRow,
     imageFullFrame,
     videoComponent
   },
-  data() {
+  data () {
     return {
       apodTitle: "NASA Image of the Day",
       disabled: false,
@@ -92,6 +71,25 @@ export default {
     ]),
     apodSrc () {
       return  this.apodData.url || this.apodData.hdurl || ''
+    },
+    buttons () {
+      return [
+        {
+          condition: this.minDateAPOD !== this.datePickerDate,
+          event: 'prevDay',
+          text: 'Previous'
+        },
+        {
+          condition: this.today !== this.datePickerDate,
+          event: 'today',
+          text: 'Today'
+        },
+        {
+          condition: this.today !== this.datePickerDate,
+          event: 'nextDay',
+          text: 'Next'
+        }
+      ]
     },
     datePickerDate: {
       get () {
