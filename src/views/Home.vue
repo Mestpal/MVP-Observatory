@@ -1,44 +1,52 @@
 <template>
-  <v-row no-gutters>
-    <v-col
-      v-if="Object.keys(apodData).length"
-      cols="12"
-    >
-      <image-full-frame
-        v-if="!isVideo"
-        :description="apodData.explanation"
-        :player-title="apodTitle"
-        :src="apodSrc"
-      />
-      <video-component
-        v-else
-        :description="apodData.explanation"
-        :player-title="apodTitle"
-        :src="apodSrc"
-      />
-    </v-col>
+  <v-col cols="12">
+    <v-row no-gutters>
+      <v-col
+        v-if="Object.keys(apodData).length"
+        cols="12"
+      >
+        <image-full-frame
+          v-if="!isVideo"
+          :description="apodData.explanation"
+          :player-title="apodTitle"
+          :src="apodSrc"
+        />
+        <video-component
+          v-else
+          :description="apodData.explanation"
+          :player-title="apodTitle"
+          :src="apodSrc"
+        />
+      </v-col>
 
-    <buttons-row
-      :items="buttons"
-      @today="onClickToday"
-      @prevDay="onClickPrev"
-      @nextDay="onClickNext"
-    />
+      <v-row>
+        <v-col cols="12">
+          <buttons-row
+            :items="buttons"
+            @today="onClickToday"
+            @prevDay="onClickPrev"
+            @nextDay="onClickNext"
+          />
+        </v-col>
+      </v-row>
 
-    <v-col cols="12">
-      <v-date-picker
-        v-model="datePickerDate"
-        :disabled="disabled"
-        :first-day-of-week="1"
-        :max="today"
-        :min="minDateAPOD"
-        :reactive="true"
-        :show-current="true"
-        width="100vw"
-        @change="onChangeDate"
-      />
-    </v-col>
-  </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-date-picker
+            v-model="datePickerDate"
+            :disabled="disabled"
+            :first-day-of-week="1"
+            :max="today"
+            :min="minDateAPOD"
+            :reactive="true"
+            :show-current="true"
+            width="100vw"
+            @change="onChangeDate"
+          />
+        </v-col>
+      </v-row>
+    </v-row>
+  </v-col>
 </template>
 
 <script>
