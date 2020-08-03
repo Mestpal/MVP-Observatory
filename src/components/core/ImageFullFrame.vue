@@ -30,7 +30,8 @@
           <v-overlay
             v-if="isHover && !isHoverOut"
             :absolute="true"
-            :opacity="0.54"
+            :opacity="0.84"
+            class="scrollable"
           >
             <v-row>
               <v-col>
@@ -103,3 +104,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .scrollable {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+</style>
