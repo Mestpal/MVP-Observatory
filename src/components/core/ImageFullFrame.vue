@@ -1,7 +1,7 @@
 <template>
   <v-card
     class="ma-0 pa-0"
-    @mouseenter="onHover"
+    @mousemove="onHover"
     @mouseleave="onLeaveHover"
   >
     <v-card-title v-if="playerTitle">
@@ -28,12 +28,12 @@
       >
         <v-slide-y-reverse-transition>
           <v-overlay
-            v-if="isHover && !isHoverOut"
+            v-if="isOverlayShown"
             :absolute="true"
             :opacity="0.84"
             class="scrollable"
           >
-            <v-row>
+            <v-row v-if="!isMobileBrowser">
               <v-col>
                 <p
                   class="d-flex darken-4 ma-4 text-justify"
@@ -41,16 +41,11 @@
                 />
               </v-col>
             </v-row>
-            <v-row
-              align="center"
-              justify="center"
-            >
-              <v-btn
-                v-if="isMobileBrowser"
-                @click="onCloseHover"
-              >
-                Close
-              </v-btn>
+            <v-row>
+              <buttons-row
+                :items="buttons"
+                @close="onCloseHover"
+              />
             </v-row>
           </v-overlay>
         </v-slide-y-reverse-transition>
@@ -62,7 +57,12 @@
 <script>
 import { mapGetters } from 'vuex'
 
+import buttonsRow from '@/components/core/buttonsRow'
+
 export default {
+  components: {
+    buttonsRow
+  },
   props: {
     src: {
       type: String,
@@ -86,11 +86,37 @@ export default {
   computed: {
     ...mapGetters([
       'isMobileBrowser'
-    ])
+    ]),
+    buttons () {
+      return [
+        {
+          condition: this.isMobileBrowser,
+          event: 'description',
+          text: 'Image Info',
+          size: 12
+        },
+        {
+          condition: true,
+          event: 'fullImage',
+          text: 'View full Image',
+          size: 12
+        },
+        {
+          condition: this.isMobileBrowser,
+          event: 'close',
+          text: 'Close',
+          size: 12
+        },
+      ]
+    },
+    isOverlayShown () {
+      return this.isHover && !this.isHoverOut
+    }
   },
   methods: {
     onCloseHover () {
       this.isHover = false
+      if (this.isMobileBrowser) this.isHoverOut = true
     },
     onLeaveHover () {
       this.isHoverOut = true
