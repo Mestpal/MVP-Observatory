@@ -1,21 +1,20 @@
 <template>
-  <v-col
-    class="pa-2"
-    cols="12"
-  >
-    <v-col cols="8">
-      <span
+  <v-col cols="12">
+    <v-row no-gutters>
+      <v-col
         v-for="(item, index) in items"
         :key="index"
+        :cols="item.size || 1"
+        align="center"
+        class="mx-auto my-2"
       >
         <v-btn
           v-if="item.condition"
-          class="mx-4 my-2"
           @click="launchEvent(item.event)"
           v-text="item.text"
         />
-      </span>
-    </v-col>
+      </v-col>
+    </v-row>
   </v-col>
 </template>
 
