@@ -18,33 +18,31 @@
           :src="apodSrc"
         />
       </v-col>
+    </v-row>
 
-      <v-row>
-        <v-col cols="12">
-          <buttons-row
-            :items="buttons"
-            @today="onClickToday"
-            @prevDay="onClickPrev"
-            @nextDay="onClickNext"
-          />
-        </v-col>
-      </v-row>
+    <v-row>
+      <buttons-row
+        :items="buttons"
+        @today="onClickToday"
+        @prevDay="onClickPrev"
+        @nextDay="onClickNext"
+      />
+    </v-row>
 
-      <v-row>
-        <v-col cols="12">
-          <v-date-picker
-            v-model="datePickerDate"
-            :disabled="disabled"
-            :first-day-of-week="1"
-            :max="today"
-            :min="minDateAPOD"
-            :reactive="true"
-            :show-current="true"
-            width="100vw"
-            @change="onChangeDate"
-          />
-        </v-col>
-      </v-row>
+    <v-row>
+      <v-col cols="12">
+        <v-date-picker
+          v-model="datePickerDate"
+          :disabled="disabled"
+          :first-day-of-week="1"
+          :max="today"
+          :min="minDateAPOD"
+          :reactive="true"
+          :show-current="true"
+          width="100%"
+          @change="onChangeDate"
+        />
+      </v-col>
     </v-row>
   </v-col>
 </template>
