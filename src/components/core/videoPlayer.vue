@@ -7,7 +7,7 @@
       <v-card-text>
         <v-row no-gutters>
           <v-col
-            class="pr-2"
+            class="darken-4 pa-1 text-justify"
             cols="12"
             md="6"
           >
@@ -23,13 +23,18 @@
             </vue-plyr>
           </v-col>
           <v-col
-            class="pl-2 text-body-1"
+            class="text-body-1"
             cols="12"
             md="6"
           >
             <p
-              class="text-justify"
+              class="d-flex darken-4 mx-4 text-justify"
               v-text="description"
+            />
+            <p
+              v-if="copyright"
+              class="d-flex darken-4 mx-4 text-justify"
+              v-text="copyright"
             />
           </v-col>
         </v-row>
@@ -41,9 +46,9 @@
 <script>
 export default {
   props: {
-    src: {
+    copyright: {
       type: String,
-      required: true
+      default: null
     },
     description: {
       type: String,
@@ -52,7 +57,11 @@ export default {
     playerTitle: {
       type: String,
       default: null
-    }
+    },
+    src: {
+      type: String,
+      required: true
+    },
   }
 }
 </script>

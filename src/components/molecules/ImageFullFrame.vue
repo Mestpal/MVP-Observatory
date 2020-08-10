@@ -37,8 +37,19 @@
               <v-row v-if="!isMobileBrowser">
                 <v-col>
                   <p
+                    v-if="title"
+                    class="d-flex darken-4 display-1 ma-4 text-justify"
+                    v-text="title"
+                  />
+                  <p
+                    v-if="description"
                     class="d-flex darken-4 ma-4 text-justify"
                     v-text="description"
+                  />
+                  <p
+                    v-if="copyright"
+                    class="d-flex darken-4 ma-4 text-justify"
+                    v-text="copyright"
                   />
                 </v-col>
               </v-row>
@@ -90,15 +101,23 @@ export default {
     modalBase
   },
   props: {
-    src: {
+    copyright: {
       type: String,
-      required: true
+      default: null
     },
     description: {
       type: String,
       required: true
     },
     playerTitle: {
+      type: String,
+      default: null
+    },
+    src: {
+      type: String,
+      required: true
+    },
+    title: {
       type: String,
       default: null
     }

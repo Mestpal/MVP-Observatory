@@ -7,12 +7,15 @@
       >
         <image-full-frame
           v-if="!isVideo"
+          :copyright="copyright"
           :description="apodData.explanation"
           :player-title="apodTitle"
           :src="apodSrc"
+          :title="apodData.title"
         />
         <video-component
           v-else
+          :copyright="copyright"
           :description="apodData.explanation"
           :player-title="apodTitle"
           :src="apodSrc"
@@ -96,6 +99,9 @@ export default {
           text: 'Next'
         }
       ]
+    },
+    copyright () {
+      return this.apodData.copyright || null
     },
     datePickerDate: {
       get () {
