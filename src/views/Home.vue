@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="12">
+  <v-col>
     <v-row no-gutters>
       <v-col
         v-if="Object.keys(apodData).length"
@@ -7,12 +7,15 @@
       >
         <image-full-frame
           v-if="!isVideo"
+          :copyright="copyright"
           :description="apodData.explanation"
           :player-title="apodTitle"
           :src="apodSrc"
+          :title="apodData.title"
         />
         <video-component
           v-else
+          :copyright="copyright"
           :description="apodData.explanation"
           :player-title="apodTitle"
           :src="apodSrc"
@@ -20,16 +23,18 @@
       </v-col>
     </v-row>
 
-    <v-row>
-      <buttons-row
-        :items="buttons"
-        @today="onClickToday"
-        @prevDay="onClickPrev"
-        @nextDay="onClickNext"
-      />
+    <v-row no-gutters>
+      <v-col cols="12">
+        <buttons-row
+          :items="buttons"
+          @today="onClickToday"
+          @prevDay="onClickPrev"
+          @nextDay="onClickNext"
+        />
+      </v-col>
     </v-row>
 
-    <v-row>
+    <v-row no-gutters>
       <v-col cols="12">
         <v-date-picker
           v-model="datePickerDate"
@@ -53,7 +58,7 @@ import isEmpty from 'lodash/isEmpty'
 import moment from 'moment'
 
 import buttonsRow from '@/components/core/buttonsRow'
-import imageFullFrame from '@/components/core/ImageFullFrame'
+import imageFullFrame from '@/components/molecules/ImageFullFrame'
 import videoComponent from '@/components/core/videoPlayer'
 
 export default {
@@ -96,6 +101,9 @@ export default {
           text: 'Next'
         }
       ]
+    },
+    copyright () {
+      return this.apodData.copyright || null
     },
     datePickerDate: {
       get () {
