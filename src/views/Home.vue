@@ -53,7 +53,7 @@ import isEmpty from 'lodash/isEmpty'
 import moment from 'moment'
 
 import buttonsRow from '@/components/core/buttonsRow'
-import imageFullFrame from '@/components/core/ImageFullFrame'
+import imageFullFrame from '@/components/molecules/ImageFullFrame'
 import videoComponent from '@/components/core/videoPlayer'
 
 export default {
