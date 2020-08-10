@@ -1,67 +1,76 @@
 <template>
-  <v-card
-    class="ma-0 pa-0"
-    @mousemove="onHover"
-    @mouseleave="onLeaveHover"
-  >
-    <v-card-title v-if="playerTitle">
-      <h2 v-text="playerTitle" />
-    </v-card-title>
-    <v-img
-      :src="src"
-      max-height="75vh"
-      max-width="100vw"
+  <v-col cols="12">
+    <v-card
+      class="ma-0 pa-0"
+      @mousemove="onHover"
+      @mouseleave="onLeaveHover"
     >
-      <template #placeholder>
-        <v-row no-gutters>
-          <v-skeleton-loader
-            type="image"
-            height="80vh"
-            min-width="100vw"
-          />
-        </v-row>
-      </template>
-
-      <v-row
-        align="end"
-        no-gutters
+      <v-card-title v-if="playerTitle">
+        <h2 v-text="playerTitle" />
+      </v-card-title>
+      <v-img
+        :src="src"
+        max-height="75vh"
+        max-width="100vw"
       >
-        <v-slide-y-reverse-transition>
-          <v-overlay
-            v-if="isOverlayShown"
-            :absolute="true"
-            :opacity="0.84"
-            class="scrollable"
-          >
-            <v-row v-if="!isMobileBrowser">
-              <v-col>
-                <p
-                  class="d-flex darken-4 ma-4 text-justify"
-                  v-text="description"
+        <template #placeholder>
+          <v-row no-gutters>
+            <v-skeleton-loader
+              type="image"
+              height="80vh"
+              min-width="100vw"
+            />
+          </v-row>
+        </template>
+
+        <v-row
+          align="end"
+          no-gutters
+        >
+          <v-slide-y-reverse-transition>
+            <v-overlay
+              v-if="isOverlayShown"
+              :absolute="true"
+              :opacity="0.84"
+              class="scrollable"
+            >
+              <v-row v-if="!isMobileBrowser">
+                <v-col>
+                  <p
+                    class="d-flex darken-4 ma-4 text-justify"
+                    v-text="description"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <buttons-row
+                  :items="buttons"
+                  @close="onCloseHover"
+                  @fullImage="onShowModal"
                 />
-              </v-col>
-            </v-row>
-            <v-row>
-              <buttons-row
-                :items="buttons"
-                @close="onCloseHover"
-              />
-            </v-row>
-          </v-overlay>
-        </v-slide-y-reverse-transition>
-      </v-row>
-    </v-img>
-  </v-card>
+              </v-row>
+            </v-overlay>
+          </v-slide-y-reverse-transition>
+        </v-row>
+      </v-img>
+    </v-card>
+    <modal-base
+      :show.sync="isModalOpen"
+      @close="onHideModal"
+    />
+  </v-col>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 
 import buttonsRow from '@/components/core/buttonsRow'
+import modalBase from '@/components/core/modalBase'
 
 export default {
   components: {
-    buttonsRow
+    buttonsRow,
+    modalBase
   },
   props: {
     src: {
@@ -80,7 +89,8 @@ export default {
   data() {
     return {
       isHover: false,
-      isHoverOut: true
+      isHoverOut: true,
+      isModalOpen: false
     }
   },
   computed: {
@@ -126,6 +136,12 @@ export default {
         this.isHover = true
         this.isHoverOut = false
       }
+    },
+    onHideModal () {
+      this.isModalOpen = false
+    },
+    onShowModal () {
+      this.isModalOpen = true
     }
   }
 }
