@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="12">
+  <v-col>
     <v-row no-gutters>
       <v-col
         v-if="Object.keys(apodData).length"
@@ -23,16 +23,18 @@
       </v-col>
     </v-row>
 
-    <v-row>
-      <buttons-row
-        :items="buttons"
-        @today="onClickToday"
-        @prevDay="onClickPrev"
-        @nextDay="onClickNext"
-      />
+    <v-row no-gutters>
+      <v-col cols="12">
+        <buttons-row
+          :items="buttons"
+          @today="onClickToday"
+          @prevDay="onClickPrev"
+          @nextDay="onClickNext"
+        />
+      </v-col>
     </v-row>
 
-    <v-row>
+    <v-row no-gutters>
       <v-col cols="12">
         <v-date-picker
           v-model="datePickerDate"

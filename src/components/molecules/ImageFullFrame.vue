@@ -1,7 +1,9 @@
 <template>
-  <v-col cols="12">
+  <v-col
+    cols="12"
+    class="ma-0 pa-0"
+  >
     <v-card
-      class="ma-0 pa-0"
       @mousemove="onHover"
       @mouseleave="onLeaveHover"
     >
