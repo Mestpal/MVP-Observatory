@@ -10,18 +10,13 @@
     >
       <v-card>
         <v-card-title>
-          <h2 v-text="'playerTitle'" />
+          <slot name="title" />
         </v-card-title>
         <v-card-text>
-          Text
+          <slot name="content" />
         </v-card-text>
         <v-card-actions>
-          <v-btn
-            color="success"
-            @click="onClickClose"
-          >
-            Close
-          </v-btn>
+          <slot name="actions" />
         </v-card-actions>
       </v-card>
     </v-dialog>

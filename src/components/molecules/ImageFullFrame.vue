@@ -57,7 +57,24 @@
     <modal-base
       :show.sync="isModalOpen"
       @close="onHideModal"
-    />
+    >
+      <template #title>
+        {{ title }}
+      </template>
+      <template #content>
+        <v-img
+          contain
+          aspect-ratio="1.7778"
+          :src="src"
+        />
+      </template>
+      <template #actions>
+        <v-spacer />
+        <v-btn @click="onHideModal">
+          Close
+        </v-btn>
+      </template>
+    </modal-base>
   </v-col>
 </template>
 
