@@ -1,11 +1,35 @@
 <template>
   <v-col>
-    <v-row no-gutters>
+    <v-row
+      v-if="Object.keys(apodData).length"
+      no-gutters
+    >
       <v-col
-        v-if="Object.keys(apodData).length"
+        v-if="!checkMobileBrowser"
         cols="12"
       >
         <image-full-frame
+          v-if="!isVideo"
+          :copyright="copyright"
+          :description="apodData.explanation"
+          :player-title="apodTitle"
+          :src="apodSrc"
+          :title="apodData.title"
+        />
+        <video-component
+          v-else
+          :copyright="copyright"
+          :description="apodData.explanation"
+          :player-title="apodTitle"
+          :src="apodSrc"
+        />
+      </v-col>
+
+      <v-col
+        v-else
+        cols="12"
+      >
+        <image-full-frame-mobile
           v-if="!isVideo"
           :copyright="copyright"
           :description="apodData.explanation"
@@ -58,7 +82,8 @@ import isEmpty from 'lodash/isEmpty'
 import moment from 'moment'
 
 import buttonsRow from '@/components/core/buttonsRow'
-import imageFullFrame from '@/components/molecules/ImageFullFrame'
+import imageFullFrame from '@/components/molecules/imageFull/ImageFullFrame'
+import imageFullFrameMobile from '@/components/molecules/imageFull/ImageFullFrameMobile'
 import videoComponent from '@/components/core/videoPlayer'
 
 export default {
@@ -66,6 +91,7 @@ export default {
   components: {
     buttonsRow,
     imageFullFrame,
+    imageFullFrameMobile,
     videoComponent
   },
   data () {
@@ -78,6 +104,7 @@ export default {
   computed: {
     ...mapGetters([
       'apodData',
+      'isMobileBrowser',
       'selectedApodDate'
     ]),
     apodSrc () {
@@ -101,6 +128,9 @@ export default {
           text: 'Next'
         }
       ]
+    },
+    checkMobileBrowser () {
+      return this.isMobileBrowser || this.$vuetify.breakpoint.sm
     },
     copyright () {
       return this.apodData.copyright || null
