@@ -66,22 +66,81 @@
       </v-row>
     </v-card>
 
-    <image-full-frame-modal
-      ref="modal"
-      :src="src"
-      :title="title"
-      @close="onHideModal"
-    />
+    <v-row
+      align="end"
+      no-gutters
+    >
+      <v-slide-y-reverse-transition>
+        <v-overlay
+          v-if="isOverlayShown"
+          :opacity="0.84"
+        >
+          <v-row
+            align="center"
+            justify="start"
+          >
+            <v-col cols="10">
+              <p
+                v-if="title"
+                class="d-flex darken-4 display-1 ml-4"
+                v-text="title"
+              />
+            </v-col>
+            <v-col cols="2">
+              <v-row
+                align="center"
+                justify="end"
+                no-gutters
+                class="px-4"
+              >
+                <v-btn
+                  :x-small="true"
+                  fab
+                  outlined
+                  @click="onClickClose"
+                >
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </v-row>
+            </v-col>
+          </v-row>
+
+          <v-row v-if="!isfullImageVisible">
+            <v-col cols="12">
+              <p
+                v-if="description"
+                class="d-flex darken-4 ma-4 text-justify"
+                v-text="description"
+              />
+            </v-col>
+          </v-row>
+          <v-row v-else>
+            <v-col cols="12">
+              <v-img
+                contain
+                aspect-ratio="1.7778"
+                :src="src"
+              />
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col cols="12">
+              <p
+                v-if="copyright"
+                class="d-flex darken-4 ma-4"
+                v-text="copyright"
+              />
+            </v-col>
+          </v-row>
+        </v-overlay>
+      </v-slide-y-reverse-transition>
+    </v-row>
   </v-col>
 </template>
 
 <script>
-import imageFullFrameModal from '@/components/molecules/imageFull/imageFullFrameModal'
-
 export default {
-  components: {
-    imageFullFrameModal
-  },
   props: {
     copyright: {
       type: String,
@@ -108,7 +167,7 @@ export default {
     return {
       fabStatus: false,
       isMenuButtonVisible: false,
-      isModalOpen: false,
+      isfullImageVisible: false,
       isOverlayShown: false
     }
   },
@@ -117,13 +176,13 @@ export default {
       return [
         {
           condition: true,
-          action: this.onClickClose,
+          action: this.onClick,
           icon: 'mdi-information',
           color: 'secondary'
         },
         {
           condition: true,
-          action: this.onShowModal,
+          action: this.onClickFullscreen,
           icon: 'mdi-fullscreen',
           color: 'primary'
         }
@@ -137,16 +196,15 @@ export default {
   },
   methods: {
     onClick () {
-      this.isOverlayShown = !this.isOverlayShown
+      this.isOverlayShown = true
+    },
+    onClickFullscreen () {
+      this.onClick()
+      this.isfullImageVisible = true
     },
     onClickClose () {
       this.isOverlayShown = false
-    },
-    onHideModal () {
-      this.$refs.modal.show = false
-    },
-    onShowModal () {
-      this.$refs.modal.show = true
+      this.isfullImageVisible = false
     },
     showMenuButton () {
       this.isMenuButtonVisible = true
@@ -154,10 +212,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  .scrollable {
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-</style>
