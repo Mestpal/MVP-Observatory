@@ -30,7 +30,7 @@
         no-gutters
       >
         <v-speed-dial
-          v-model="fab"
+          v-model="fabStatus"
           :absolute="true"
           :right="true"
         >
@@ -39,11 +39,14 @@
               v-if="isMenuButtonVisible"
               :fab="true"
               :right="true"
-              :small="true"
-              color="primary"
+              :medium="true"
+              color="purple"
             >
-              <v-icon dark>
-                mdi-android
+              <v-icon v-if="!fabStatus">
+                mdi-menu
+              </v-icon>
+              <v-icon v-else>
+                mdi-close
               </v-icon>
             </v-btn>
           </template>
@@ -53,7 +56,7 @@
             :key="index"
             :color="button.color"
             :fab="true"
-            :x-small="true"
+            :small="true"
             @click="button.action"
           >
             <v-icon>{{ button.icon }}</v-icon>
@@ -102,7 +105,7 @@ export default {
   },
   data() {
     return {
-      fab: false,
+      fabStatus: false,
       isMenuButtonVisible: false,
       isModalOpen: false,
       isOverlayShown: false
@@ -115,13 +118,13 @@ export default {
           condition: true,
           action: this.onClickClose,
           icon: 'mdi-information',
-          color: 'gray'
+          color: 'secondary'
         },
         {
           condition: true,
           action: this.onShowModal,
           icon: 'mdi-fullscreen',
-          color: 'purple'
+          color: 'primary'
         }
       ]
     },
