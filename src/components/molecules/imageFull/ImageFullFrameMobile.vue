@@ -80,9 +80,9 @@
             justify="start"
           >
             <v-col cols="10">
-              <p
+              <h2
                 v-if="title"
-                class="d-flex darken-4 display-1 ml-4"
+                class="d-flex darken-4 ml-4"
                 v-text="title"
               />
             </v-col>
@@ -129,7 +129,7 @@
               <p
                 v-if="copyright"
                 class="d-flex darken-4 ma-4"
-                v-text="copyright"
+                v-text="`Author: ${copyright}`"
               />
             </v-col>
           </v-row>

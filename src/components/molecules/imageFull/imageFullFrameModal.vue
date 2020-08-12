@@ -1,23 +1,36 @@
 <template>
   <modal-base
     :show.sync="show"
+    :fullscreen="true"
     @close="onClickClose"
   >
     <template #title>
       {{ title }}
     </template>
     <template #content>
-      <v-img
-        contain
-        aspect-ratio="1.7778"
-        :src="src"
-      />
+      <v-row
+        justify="center"
+        align="center"
+      >
+        <v-col cols="10">
+          <v-img
+            contain
+            max-height="480"
+            :src="src"
+          />
+        </v-col>
+      </v-row>
     </template>
     <template #actions>
       <v-spacer />
-      <v-btn @click.prevent="onClickClose">
-        Close
-      </v-btn>
+      <v-col cols="1">
+        <v-btn
+          color="error"
+          @click.prevent="onClickClose"
+        >
+          Close
+        </v-btn>
+      </v-col>
     </template>
   </modal-base>
 </template>

@@ -36,9 +36,8 @@
             v-if="isOverlayShown"
             :absolute="true"
             :opacity="0.84"
-            class="scrollable"
           >
-            <v-row>
+            <v-row class="ma-4">
               <v-col>
                 <p
                   v-if="title"
@@ -53,7 +52,7 @@
                 <p
                   v-if="copyright"
                   class="d-flex darken-4 ma-4 text-justify"
-                  v-text="copyright"
+                  v-text="`Author: ${copyright}`"
                 />
               </v-col>
             </v-row>
@@ -120,6 +119,7 @@ export default {
       return [
         {
           condition: true,
+          color: 'purple',
           event: 'fullImage',
           text: 'View full Image',
           size: 12
