@@ -2,9 +2,10 @@
   <div>
     <v-dialog
       v-model="show"
+      v-bind="$attrs"
+      :overlay="true"
       scrollable
       persistent
-      :overlay="false"
       max-width="90%"
       transition="dialog-transition"
     >

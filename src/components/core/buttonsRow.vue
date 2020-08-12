@@ -10,6 +10,7 @@
       >
         <v-btn
           v-if="item.condition"
+          :color="item.color || 'primary'"
           @click="launchEvent(item.event)"
           v-text="item.text"
         />
