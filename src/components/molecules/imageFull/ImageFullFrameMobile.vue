@@ -33,6 +33,7 @@
           v-model="fabStatus"
           :absolute="true"
           :right="true"
+          :bottom="true"
         >
           <template v-slot:activator>
             <v-btn
