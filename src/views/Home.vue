@@ -118,6 +118,7 @@ export default {
           text: 'Previous'
         },
         {
+          color: 'orange',
           condition: this.today !== this.datePickerDate,
           event: 'today',
           text: 'Today'
