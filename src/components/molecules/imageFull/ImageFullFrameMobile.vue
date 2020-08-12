@@ -3,7 +3,7 @@
     cols="12"
     class="ma-0 pa-0"
   >
-    <v-card>
+    <v-card flat>
       <v-card-title v-if="playerTitle">
         <h2 v-text="playerTitle" />
       </v-card-title>

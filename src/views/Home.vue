@@ -1,5 +1,5 @@
 <template>
-  <v-col>
+  <v-col class="pa-0">
     <v-row
       v-if="Object.keys(apodData).length"
       no-gutters
