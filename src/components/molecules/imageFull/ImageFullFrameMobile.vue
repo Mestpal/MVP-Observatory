@@ -81,7 +81,7 @@
           <v-row>
             <v-col
               cols="12"
-              sm="6"
+              sm="4"
               align="center"
             >
               <v-row
@@ -91,12 +91,18 @@
               >
                 <v-col
                   sm="12"
+                  class="text-left"
                   cols="10"
                 >
                   <h2
                     v-if="title"
                     class="d-flex darken-4 ml-4"
                     v-text="title"
+                  />
+                  <p
+                    v-if="copyright"
+                    class="d-flex darken-4 ml-4"
+                    v-text="`Author: ${copyright}`"
                   />
                 </v-col>
                 <v-col
@@ -125,12 +131,12 @@
 
             <v-col
               cols="12"
-              sm="6"
+              sm="8"
             >
               <v-card
                 flat
                 color="transparent"
-                class="ma-0 pa-0"
+                class="pa-0"
               >
                 <v-card-text
                   v-if="description && !isfullImageVisible"
@@ -143,11 +149,6 @@
                   contain
                   aspect-ratio="1.7778"
                   :src="src"
-                />
-                <p
-                  v-if="copyright"
-                  class="d-flex darken-4 mx-4"
-                  v-text="`Author: ${copyright}`"
                 />
               </v-card>
             </v-col>
