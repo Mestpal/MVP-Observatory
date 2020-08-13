@@ -1,17 +1,27 @@
 <template>
   <v-col class="pa-0">
+    <v-row>
+      <v-col class="mx-4">
+        <h1
+          v-if="!checkMobileBrowser"
+          v-text="apodTitle"
+        />
+        <h3
+          v-else
+          v-text="apodTitle"
+        />
+      </v-col>
+    </v-row>
+
     <v-row
       v-if="Object.keys(apodData).length"
       no-gutters
     >
-      <v-col
-        v-if="!checkMobileBrowser"
-      >
+      <v-col v-if="!checkMobileBrowser">
         <image-full-frame
           v-if="!isVideo"
           :copyright="copyright"
           :description="apodData.explanation"
-          :player-title="apodTitle"
           :src="apodSrc"
           :title="apodData.title"
         />
@@ -19,7 +29,6 @@
           v-else
           :copyright="copyright"
           :description="apodData.explanation"
-          :player-title="apodTitle"
           :src="apodSrc"
         />
       </v-col>
@@ -32,7 +41,6 @@
           v-if="!isVideo"
           :copyright="copyright"
           :description="apodData.explanation"
-          :player-title="apodTitle"
           :src="apodSrc"
           :title="apodData.title"
         />
@@ -40,7 +48,6 @@
           v-else
           :copyright="copyright"
           :description="apodData.explanation"
-          :player-title="apodTitle"
           :src="apodSrc"
         />
       </v-col>
