@@ -11,9 +11,18 @@
         <v-btn
           v-if="item.condition"
           :color="item.color || 'primary'"
+          :fab="mobile"
+          :depressed="mobile"
+          :small="mobile"
           @click="launchEvent(item.event)"
-          v-text="item.text"
-        />
+        >
+          <v-icon v-if="mobile">
+            {{ item.icon }}
+          </v-icon>
+          <span v-else>
+            {{ item.text }}
+          </span>
+        </v-btn>
       </v-col>
     </v-row>
   </v-col>
@@ -25,6 +34,9 @@ export default {
     items:{
       type: Array,
       required: true
+    },
+    mobile: {
+      type:Boolean
     }
   },
   methods: {
