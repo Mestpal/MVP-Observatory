@@ -141,15 +141,12 @@
                   aspect-ratio="1.7778"
                   :src="src"
                 />
+                <p
+                  v-if="copyright"
+                  class="d-flex darken-4 mx-4"
+                  v-text="`Author: ${copyright}`"
+                />
               </v-card>
-            </v-col>
-
-            <v-col cols="12">
-              <p
-                v-if="copyright"
-                class="d-flex darken-4 mx-4"
-                v-text="`Author: ${copyright}`"
-              />
             </v-col>
           </v-row>
         </v-overlay>
