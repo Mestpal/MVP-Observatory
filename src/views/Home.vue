@@ -51,6 +51,7 @@
       <v-col cols="12">
         <buttons-row
           :items="buttons"
+          :mobile="checkMobileBrowser"
           @today="onClickToday"
           @prevDay="onClickPrev"
           @nextDay="onClickNext"
@@ -115,17 +116,20 @@ export default {
         {
           condition: this.minDateAPOD !== this.datePickerDate,
           event: 'prevDay',
+          icon: "mdi-skip-previous",
           text: 'Previous'
         },
         {
           color: 'orange',
           condition: this.today !== this.datePickerDate,
           event: 'today',
+          icon: "mdi-calendar-today",
           text: 'Today'
         },
         {
           condition: this.today !== this.datePickerDate,
           event: 'nextDay',
+          icon: "mdi-skip-next",
           text: 'Next'
         }
       ]
