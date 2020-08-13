@@ -6,7 +6,6 @@
     >
       <v-col
         v-if="!checkMobileBrowser"
-        cols="12"
       >
         <image-full-frame
           v-if="!isVideo"
@@ -27,7 +26,7 @@
 
       <v-col
         v-else
-        cols="12"
+        sm="6"
       >
         <image-full-frame-mobile
           v-if="!isVideo"
@@ -45,33 +44,42 @@
           :src="apodSrc"
         />
       </v-col>
-    </v-row>
 
-    <v-row no-gutters>
-      <v-col cols="12">
-        <buttons-row
-          :items="buttons"
-          :mobile="checkMobileBrowser"
-          @today="onClickToday"
-          @prevDay="onClickPrev"
-          @nextDay="onClickNext"
-        />
-      </v-col>
-    </v-row>
+      <v-col :cols="datapickerSize">
+        <v-col class="px-0 py-0">
+          <buttons-row
+            v-if="!checkMobileBrowser || !isLandscape"
+            :items="buttons"
+            :mobile="checkMobileBrowser"
+            @today="onClickToday"
+            @prevDay="onClickPrev"
+            @nextDay="onClickNext"
+          />
+          <v-col class="pa-0">
+            <v-date-picker
+              v-model="datePickerDate"
+              :disabled="disabled"
+              :first-day-of-week="1"
+              :max="today"
+              :min="minDateAPOD"
+              :reactive="true"
+              :show-current="true"
+              :full-width="true"
+              @change="onChangeDate"
+            />
+          </v-col>
+        </v-col>
 
-    <v-row no-gutters>
-      <v-col cols="12">
-        <v-date-picker
-          v-model="datePickerDate"
-          :disabled="disabled"
-          :first-day-of-week="1"
-          :max="today"
-          :min="minDateAPOD"
-          :reactive="true"
-          :show-current="true"
-          width="100%"
-          @change="onChangeDate"
-        />
+        <v-row v-if="isLandscape">
+          <buttons-row
+            :items="buttons"
+            :mobile="checkMobileBrowser"
+            class="my-2"
+            @today="onClickToday"
+            @prevDay="onClickPrev"
+            @nextDay="onClickNext"
+          />
+        </v-row>
       </v-col>
     </v-row>
   </v-col>
@@ -147,6 +155,12 @@ export default {
       set (newDate) {
         this.setApodDate(newDate)
       }
+    },
+    datapickerSize () {
+      return this.isLandscape ? 6 : 12
+    },
+    isLandscape () {
+      return this.checkMobileBrowser && this.$vuetify.breakpoint.smAndUp
     },
     isVideo () {
       return this.apodData.media_type === 'video'
