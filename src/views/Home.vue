@@ -135,7 +135,7 @@ export default {
       ]
     },
     checkMobileBrowser () {
-      return this.isMobileBrowser || this.$vuetify.breakpoint.sm
+      return this.isMobileBrowser || this.$vuetify.breakpoint.smAndDown
     },
     copyright () {
       return this.apodData.copyright || null
