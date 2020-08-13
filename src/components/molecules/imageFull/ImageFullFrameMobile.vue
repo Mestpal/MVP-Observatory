@@ -3,14 +3,17 @@
     cols="12"
     class="ma-0 pa-0"
   >
-    <v-card flat>
+    <v-card
+      flat
+      tile
+    >
       <v-card-title v-if="playerTitle">
-        <h2 v-text="playerTitle" />
+        <h3 v-text="playerTitle" />
       </v-card-title>
 
       <v-img
         :src="src"
-        max-height="75vh"
+        max-height="100vh"
         max-width="100vw"
         @load="showMenuButton"
       >
