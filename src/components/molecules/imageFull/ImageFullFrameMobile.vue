@@ -73,62 +73,81 @@
       <v-slide-y-reverse-transition>
         <v-overlay
           v-if="isOverlayShown"
-          :opacity="0.84"
+          :opacity="0.92"
         >
-          <v-row
-            align="center"
-            justify="start"
-          >
-            <v-col cols="10">
-              <h2
-                v-if="title"
-                class="d-flex darken-4 ml-4"
-                v-text="title"
-              />
-            </v-col>
-            <v-col cols="2">
+          <v-row>
+            <v-col
+              cols="12"
+              sm="6"
+              align="center"
+            >
               <v-row
+                class="fill-height"
                 align="center"
-                justify="end"
-                no-gutters
-                class="px-4"
+                justify="center"
               >
-                <v-btn
-                  :x-small="true"
-                  fab
-                  outlined
-                  @click="onClickClose"
+                <v-col
+                  sm="12"
+                  cols="10"
                 >
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
+                  <h2
+                    v-if="title"
+                    class="d-flex darken-4 ml-4"
+                    v-text="title"
+                  />
+                </v-col>
+                <v-col
+                  sm="12"
+                  cols="2"
+                  align="center"
+                  justify="center"
+                >
+                  <v-row
+                    justify="center"
+                    no-gutters
+                    class="px-4"
+                  >
+                    <v-btn
+                      :x-small="true"
+                      fab
+                      outlined
+                      @click="onClickClose"
+                    >
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                  </v-row>
+                </v-col>
               </v-row>
             </v-col>
-          </v-row>
 
-          <v-row v-if="!isfullImageVisible">
-            <v-col cols="12">
-              <p
-                v-if="description"
-                class="d-flex darken-4 ma-4 text-justify"
-                v-text="description"
-              />
+            <v-col
+              cols="12"
+              sm="6"
+            >
+              <v-card
+                flat
+                color="transparent"
+                class="ma-0 pa-0"
+              >
+                <v-card-text
+                  v-if="description && !isfullImageVisible"
+                  :class="{textHeight: isLandscape}"
+                  class="darken-4 scrollable text-justify"
+                  v-text="description"
+                />
+                <v-img
+                  v-else
+                  contain
+                  aspect-ratio="1.7778"
+                  :src="src"
+                />
+              </v-card>
             </v-col>
-          </v-row>
-          <v-row v-else>
-            <v-col cols="12">
-              <v-img
-                contain
-                aspect-ratio="1.7778"
-                :src="src"
-              />
-            </v-col>
-          </v-row>
 
-          <v-row>
             <v-col cols="12">
               <p
                 v-if="copyright"
-                class="d-flex darken-4 ma-4"
+                class="d-flex darken-4 mx-4"
                 v-text="`Author: ${copyright}`"
               />
             </v-col>
@@ -188,6 +207,9 @@ export default {
         }
       ]
     },
+    isLandscape () {
+      return this.$vuetify.breakpoint.smAndUp
+    }
   },
   watch: {
     src (){
@@ -212,3 +234,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .scrollable {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .textHeight {
+    max-height: 100vh;
+  }
+</style>
