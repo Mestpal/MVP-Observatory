@@ -1,16 +1,16 @@
 <template>
-  <v-col class="pa-0">
-    <v-row>
-      <v-col class="mx-4">
-        <h1
-          v-if="!checkMobileBrowser"
-          v-text="apodTitle"
-        />
-        <h3
-          v-else
-          v-text="apodTitle"
-        />
-      </v-col>
+  <v-col>
+    <v-row no-gutters>
+      <h1
+        v-if="!checkMobileBrowser"
+        class="my-2"
+        v-text="apodTitle"
+      />
+      <h2
+        v-else
+        class="my-2"
+        v-text="apodTitle"
+      />
     </v-row>
 
     <v-row
@@ -35,7 +35,7 @@
 
       <v-col
         v-else
-        sm="6"
+        :cols="landscapeColsSize"
       >
         <image-full-frame-mobile
           v-if="!isVideo"
@@ -48,12 +48,16 @@
           v-else
           :copyright="copyright"
           :description="apodData.explanation"
+          :player-title="apodTitle"
           :src="apodSrc"
         />
       </v-col>
 
-      <v-col :cols="datapickerSize">
-        <v-col class="px-0 py-0">
+      <v-col :cols="landscapeColsSize">
+        <v-col
+          :class="{'pa-0': !isLandscape}"
+          class="py-0"
+        >
           <buttons-row
             v-if="!checkMobileBrowser || !isLandscape"
             :items="buttons"
@@ -163,11 +167,11 @@ export default {
         this.setApodDate(newDate)
       }
     },
-    datapickerSize () {
+    landscapeColsSize () {
       return this.isLandscape ? 6 : 12
     },
     isLandscape () {
-      return this.checkMobileBrowser && this.$vuetify.breakpoint.smAndUp
+      return this.checkMobileBrowser && this.$vuetify.breakpoint.mdAndUp
     },
     isVideo () {
       return this.apodData.media_type === 'video'
