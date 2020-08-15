@@ -5,7 +5,7 @@
   >
     <v-card
       flat
-      tile
+      rounded
     >
       <v-card-title v-if="playerTitle">
         <h3 v-text="playerTitle" />

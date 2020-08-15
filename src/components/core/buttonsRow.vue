@@ -1,12 +1,13 @@
 <template>
   <v-col cols="12">
     <v-row no-gutters>
+      <v-spacer />
       <v-col
         v-for="(item, index) in items"
         :key="index"
-        :cols="item.size || 1"
+        :cols="item.size || 2"
         align="center"
-        class="mx-auto my-2"
+        class="mx-auto"
       >
         <v-btn
           v-if="item.condition"
@@ -25,6 +26,7 @@
           </span>
         </v-btn>
       </v-col>
+      <v-spacer />
     </v-row>
   </v-col>
 </template>

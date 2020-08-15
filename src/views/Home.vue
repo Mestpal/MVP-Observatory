@@ -2,17 +2,32 @@
   <v-col>
     <v-row
       no-gutters
-      justify="center"
-      class="my-2"
     >
-      <h1
-        v-if="!checkMobileBrowser"
-        v-text="apodTitle"
-      />
-      <h2
-        v-else
-        v-text="apodTitle"
-      />
+      <v-col>
+        <v-row
+          no-gutters
+          justify="center"
+          class="my-4"
+        >
+          <h1
+            v-if="!isLandscape"
+            v-text="apodTitle"
+          />
+          <h2
+            v-else
+            v-text="apodTitle"
+          />
+        </v-row>
+      </v-col>
+      <v-col v-if="isLandscape">
+        <buttons-row
+          :items="buttons"
+          :mobile="checkMobileNavigation"
+          @today="onClickToday"
+          @prevDay="onClickPrev"
+          @nextDay="onClickNext"
+        />
+      </v-col>
     </v-row>
 
     <v-row
