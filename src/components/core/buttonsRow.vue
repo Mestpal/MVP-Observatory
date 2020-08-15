@@ -13,8 +13,8 @@
           :color="item.color || 'primary'"
           :fab="mobile"
           :depressed="mobile"
-          :small="!mobile"
-          :medium="mobile"
+          :large="!mobile"
+          :small="mobile"
           @click="launchEvent(item.event)"
         >
           <v-icon v-if="mobile">

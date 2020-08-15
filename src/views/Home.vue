@@ -1,23 +1,35 @@
 <template>
   <v-col>
-    <v-row no-gutters>
-      <h1
-        v-if="!checkMobileBrowser"
-        class="my-2"
-        v-text="apodTitle"
-      />
-      <h2
-        v-else
-        class="my-2"
-        v-text="apodTitle"
-      />
+    <v-row
+      no-gutters
+      align="center"
+    >
+      <v-col>
+        <h1
+          v-if="!isLandscape"
+          v-text="apodTitle"
+        />
+        <h2
+          v-else
+          v-text="apodTitle"
+        />
+      </v-col>
+      <v-col v-if="isLandscape">
+        <buttons-row
+          :items="buttons"
+          :mobile="checkMobileNavigation"
+          @today="onClickToday"
+          @prevDay="onClickPrev"
+          @nextDay="onClickNext"
+        />
+      </v-col>
     </v-row>
 
     <v-row
       v-if="Object.keys(apodData).length"
       no-gutters
     >
-      <v-col v-if="!checkMobileBrowser">
+      <v-col v-if="!checkMobileNavigation">
         <image-full-frame
           v-if="!isVideo"
           :copyright="copyright"
@@ -59,9 +71,9 @@
           class="py-0"
         >
           <buttons-row
-            v-if="!checkMobileBrowser || !isLandscape"
+            v-if="!checkMobileNavigation || !isLandscape"
             :items="buttons"
-            :mobile="checkMobileBrowser"
+            :mobile="checkMobileNavigation"
             @today="onClickToday"
             @prevDay="onClickPrev"
             @nextDay="onClickNext"
@@ -80,17 +92,6 @@
             />
           </v-col>
         </v-col>
-
-        <v-row v-if="isLandscape">
-          <buttons-row
-            :items="buttons"
-            :mobile="checkMobileBrowser"
-            class="my-2"
-            @today="onClickToday"
-            @prevDay="onClickPrev"
-            @nextDay="onClickNext"
-          />
-        </v-row>
       </v-col>
     </v-row>
   </v-col>
@@ -153,7 +154,7 @@ export default {
         }
       ]
     },
-    checkMobileBrowser () {
+    checkMobileNavigation () {
       return this.isMobileBrowser || this.$vuetify.breakpoint.smAndDown
     },
     copyright () {
@@ -171,7 +172,7 @@ export default {
       return this.isLandscape ? 6 : 12
     },
     isLandscape () {
-      return this.checkMobileBrowser && this.$vuetify.breakpoint.smAndUp
+      return this.checkMobileNavigation && this.$vuetify.breakpoint.smAndUp
     },
     isVideo () {
       return this.apodData.media_type === 'video'
