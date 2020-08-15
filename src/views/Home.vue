@@ -171,7 +171,7 @@ export default {
       return this.isLandscape ? 6 : 12
     },
     isLandscape () {
-      return this.checkMobileBrowser && this.$vuetify.breakpoint.mdAndUp
+      return this.checkMobileBrowser && this.$vuetify.breakpoint.smAndUp
     },
     isVideo () {
       return this.apodData.media_type === 'video'
