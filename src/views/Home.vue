@@ -2,7 +2,7 @@
   <v-col>
     <section-intro
       :landscape="isLandscape"
-      :mobile="checkMobileNavigation"
+      :mobile="isLandscape"
       :title="apodTitle"
     >
       <template #mobile>
@@ -16,44 +16,50 @@
       </template>
     </section-intro>
 
-    <v-row
-      v-if="Object.keys(apodData).length"
-      no-gutters
-    >
-      <v-col v-if="!checkMobileNavigation">
-        <image-full-frame
-          v-if="!isVideo"
-          :copyright="copyright"
-          :description="apodData.explanation"
-          :src="apodSrc"
-          :title="apodData.title"
-        />
-        <video-component
-          v-else
-          :copyright="copyright"
-          :description="apodData.explanation"
-          :src="apodSrc"
-        />
-      </v-col>
-
+    <v-row no-gutters>
       <v-col
-        v-else
+        v-if="Object.keys(apodData).length"
         :cols="landscapeColsSize"
+        class="ma-0 pa-0"
       >
-        <image-full-frame-mobile
-          v-if="!isVideo"
-          :copyright="copyright"
-          :description="apodData.explanation"
-          :src="apodSrc"
-          :title="apodData.title"
-        />
-        <video-component
+        <v-col
+          v-if="!checkMobileNavigation"
+          class="ma-0 pa-0"
+        >
+          <image-full-frame
+            v-if="!isVideo"
+            :copyright="copyright"
+            :description="apodData.explanation"
+            :src="apodSrc"
+            :title="apodData.title"
+          />
+          <video-component
+            v-else
+            :copyright="copyright"
+            :description="apodData.explanation"
+            :src="apodSrc"
+          />
+        </v-col>
+
+        <v-col
           v-else
-          :copyright="copyright"
-          :description="apodData.explanation"
-          :player-title="apodTitle"
-          :src="apodSrc"
-        />
+          class="ma-0 pa-0"
+        >
+          <image-full-frame-mobile
+            v-if="!isVideo"
+            :copyright="copyright"
+            :description="apodData.explanation"
+            :src="apodSrc"
+            :title="apodData.title"
+          />
+          <video-component
+            v-else
+            :copyright="copyright"
+            :description="apodData.explanation"
+            :player-title="apodTitle"
+            :src="apodSrc"
+          />
+        </v-col>
       </v-col>
 
       <v-col :cols="landscapeColsSize">

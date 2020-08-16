@@ -13,7 +13,7 @@
 
       <v-img
         :src="src"
-        height="60vh"
+        :height="isLandscape ? '100vh' : '60vh'"
         width="100vw"
         @load="showMenuButton"
       >
@@ -146,7 +146,7 @@
                   <v-card-text
                     v-if="description && !isfullImageVisible"
                     :class="{textHeight: isLandscape}"
-                    class="darken-4 scrollable text-justify"
+                    class="darken-4 pr-8 scrollable text-justify"
                     v-text="description"
                   />
                   <v-img
