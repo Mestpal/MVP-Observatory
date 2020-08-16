@@ -2,17 +2,22 @@
   <v-col>
     <v-row
       no-gutters
-      align="center"
     >
       <v-col>
-        <h1
-          v-if="!isLandscape"
-          v-text="apodTitle"
-        />
-        <h2
-          v-else
-          v-text="apodTitle"
-        />
+        <v-row
+          no-gutters
+          justify="center"
+          class="my-4"
+        >
+          <h1
+            v-if="!isLandscape"
+            v-text="apodTitle"
+          />
+          <h2
+            v-else
+            v-text="apodTitle"
+          />
+        </v-row>
       </v-col>
       <v-col v-if="isLandscape">
         <buttons-row

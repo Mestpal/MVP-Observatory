@@ -5,7 +5,7 @@
   >
     <v-card
       flat
-      tile
+      rounded
     >
       <v-card-title v-if="playerTitle">
         <h3 v-text="playerTitle" />
@@ -13,8 +13,8 @@
 
       <v-img
         :src="src"
-        max-height="100vh"
-        max-width="100vw"
+        height="60vh"
+        width="100vw"
         @load="showMenuButton"
       >
         <template #placeholder>

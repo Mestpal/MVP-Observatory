@@ -12,13 +12,14 @@
         justify="center"
         align="center"
       >
+        <v-spacer />
         <v-col cols="10">
           <v-img
             contain
-            max-height="480"
             :src="src"
           />
         </v-col>
+        <v-spacer />
       </v-row>
     </template>
     <template #actions>
