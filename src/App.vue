@@ -2,7 +2,6 @@
   <v-app>
     <v-app-bar
       app
-      dense
       flat
     >
       <v-app-bar-nav-icon
@@ -19,9 +18,19 @@
       class="accent-4 deep-purple"
     >
       <v-list>
-        <v-list-item>
-          <v-app-bar-nav-icon @click="updateDrawerVisibility" />
+        <v-list-item
+          link
+          @click="updateDrawerVisibility"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-menu</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title> Close Menu</v-list-item-title>
+          </v-list-item-content>
         </v-list-item>
+
         <v-list-item
           v-for="section in drawerSections"
           :key="section.title"
