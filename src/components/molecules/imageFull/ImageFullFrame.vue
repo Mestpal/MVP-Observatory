@@ -36,8 +36,9 @@
             v-if="isOverlayShown"
             :absolute="true"
             :opacity="0.84"
+            z-index="0"
           >
-            <v-row class="ma-4">
+            <v-row class="ma-2">
               <v-col>
                 <p
                   v-if="title"
@@ -46,22 +47,26 @@
                 />
                 <p
                   v-if="description"
-                  class="d-flex darken-4 ma-4 text-justify"
+                  class="d-flex darken-4 ma-2 text-justify"
                   v-text="description"
                 />
                 <p
                   v-if="copyright"
-                  class="d-flex darken-4 ma-4 text-justify"
+                  class="d-flex darken-4 ma-2 text-justify"
                   v-text="`Author: ${copyright}`"
                 />
               </v-col>
             </v-row>
-            <v-row>
-              <buttons-row
-                :items="buttons"
-                @close="onCloseHover"
-                @fullImage="onShowModal"
-              />
+            <v-row
+              justify="center"
+              no-gutters
+            >
+              <v-btn
+                color="purple"
+                @click="onShowModal"
+              >
+                View full size
+              </v-btn>
             </v-row>
           </v-overlay>
         </v-slide-y-reverse-transition>
@@ -77,12 +82,10 @@
 </template>
 
 <script>
-import buttonsRow from '@/components/core/buttonsRow'
 import imageFullFrameModal from '@/components/molecules/imageFull/imageFullFrameModal'
 
 export default {
   components: {
-    buttonsRow,
     imageFullFrameModal
   },
   props: {
@@ -115,17 +118,6 @@ export default {
     }
   },
   computed: {
-    buttons () {
-      return [
-        {
-          condition: true,
-          color: 'purple',
-          event: 'fullImage',
-          text: 'View full Image',
-          size: 12
-        }
-      ]
-    },
     isOverlayShown () {
       return this.isHover && !this.isHoverOut
     }

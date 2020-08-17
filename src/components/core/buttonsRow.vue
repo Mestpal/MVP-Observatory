@@ -1,7 +1,6 @@
 <template>
   <v-col cols="12">
     <v-row no-gutters>
-      <v-spacer />
       <v-col
         v-for="(item, index) in items"
         :key="index"
@@ -26,7 +25,6 @@
           </span>
         </v-btn>
       </v-col>
-      <v-spacer />
     </v-row>
   </v-col>
 </template>

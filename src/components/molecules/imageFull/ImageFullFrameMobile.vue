@@ -13,7 +13,7 @@
 
       <v-img
         :src="src"
-        height="60vh"
+        :height="isLandscape ? '100vh' : '60vh'"
         width="100vw"
         @load="showMenuButton"
       >
@@ -105,6 +105,7 @@
                     v-text="`Author: ${copyright}`"
                   />
                 </v-col>
+
                 <v-col
                   sm="12"
                   cols="2"
@@ -133,24 +134,29 @@
               cols="12"
               sm="8"
             >
-              <v-card
-                flat
-                color="transparent"
-                class="pa-0"
+              <v-row
+                class="fill-height"
+                align="center"
+                justify="center"
               >
-                <v-card-text
-                  v-if="description && !isfullImageVisible"
-                  :class="{textHeight: isLandscape}"
-                  class="darken-4 scrollable text-justify"
-                  v-text="description"
-                />
-                <v-img
-                  v-else
-                  contain
-                  aspect-ratio="1.7778"
-                  :src="src"
-                />
-              </v-card>
+                <v-card
+                  flat
+                  color="transparent"
+                >
+                  <v-card-text
+                    v-if="description && !isfullImageVisible"
+                    :class="{textHeight: isLandscape}"
+                    class="darken-4 pr-8 scrollable text-justify"
+                    v-text="description"
+                  />
+                  <v-img
+                    v-else
+                    contain
+                    :src="src"
+                    :width="previewWitdh"
+                  />
+                </v-card>
+              </v-row>
             </v-col>
           </v-row>
         </v-overlay>
@@ -210,6 +216,9 @@ export default {
     },
     isLandscape () {
       return this.$vuetify.breakpoint.smAndUp
+    },
+    previewWitdh () {
+      return this.isLandscape ? "60vw" : "90vw"
     }
   },
   watch: {

@@ -1,25 +1,11 @@
 <template>
   <v-col>
-    <v-row
-      no-gutters
+    <section-intro
+      :landscape="isLandscape"
+      :mobile="isLandscape"
+      :title="apodTitle"
     >
-      <v-col>
-        <v-row
-          no-gutters
-          justify="center"
-          class="my-4"
-        >
-          <h1
-            v-if="!isLandscape"
-            v-text="apodTitle"
-          />
-          <h2
-            v-else
-            v-text="apodTitle"
-          />
-        </v-row>
-      </v-col>
-      <v-col v-if="isLandscape">
+      <template #mobile>
         <buttons-row
           :items="buttons"
           :mobile="checkMobileNavigation"
@@ -27,47 +13,53 @@
           @prevDay="onClickPrev"
           @nextDay="onClickNext"
         />
-      </v-col>
-    </v-row>
+      </template>
+    </section-intro>
 
-    <v-row
-      v-if="Object.keys(apodData).length"
-      no-gutters
-    >
-      <v-col v-if="!checkMobileNavigation">
-        <image-full-frame
-          v-if="!isVideo"
-          :copyright="copyright"
-          :description="apodData.explanation"
-          :src="apodSrc"
-          :title="apodData.title"
-        />
-        <video-component
-          v-else
-          :copyright="copyright"
-          :description="apodData.explanation"
-          :src="apodSrc"
-        />
-      </v-col>
-
+    <v-row no-gutters>
       <v-col
-        v-else
+        v-if="Object.keys(apodData).length"
         :cols="landscapeColsSize"
+        class="ma-0 pa-0"
       >
-        <image-full-frame-mobile
-          v-if="!isVideo"
-          :copyright="copyright"
-          :description="apodData.explanation"
-          :src="apodSrc"
-          :title="apodData.title"
-        />
-        <video-component
+        <v-col
+          v-if="!checkMobileNavigation"
+          class="ma-0 pa-0"
+        >
+          <image-full-frame
+            v-if="!isVideo"
+            :copyright="copyright"
+            :description="apodData.explanation"
+            :src="apodSrc"
+            :title="apodData.title"
+          />
+          <video-component
+            v-else
+            :copyright="copyright"
+            :description="apodData.explanation"
+            :src="apodSrc"
+          />
+        </v-col>
+
+        <v-col
           v-else
-          :copyright="copyright"
-          :description="apodData.explanation"
-          :player-title="apodTitle"
-          :src="apodSrc"
-        />
+          class="ma-0 pa-0"
+        >
+          <image-full-frame-mobile
+            v-if="!isVideo"
+            :copyright="copyright"
+            :description="apodData.explanation"
+            :src="apodSrc"
+            :title="apodData.title"
+          />
+          <video-component
+            v-else
+            :copyright="copyright"
+            :description="apodData.explanation"
+            :player-title="apodTitle"
+            :src="apodSrc"
+          />
+        </v-col>
       </v-col>
 
       <v-col :cols="landscapeColsSize">
@@ -110,6 +102,7 @@ import moment from 'moment'
 import buttonsRow from '@/components/core/buttonsRow'
 import imageFullFrame from '@/components/molecules/imageFull/ImageFullFrame'
 import imageFullFrameMobile from '@/components/molecules/imageFull/ImageFullFrameMobile'
+import sectionIntro from '@/components/core/sectionIntro'
 import videoComponent from '@/components/core/videoPlayer'
 
 export default {
@@ -118,6 +111,7 @@ export default {
     buttonsRow,
     imageFullFrame,
     imageFullFrameMobile,
+    sectionIntro,
     videoComponent
   },
   data () {
