@@ -1,18 +1,22 @@
 <template>
   <v-row>
+    <v-col v-if="media && inverse">
+      <slot name="media" />
+    </v-col>
+
     <v-col>
       <v-col>
-        <h1 v-text="title" />
+        <slot name="title" />
       </v-col>
       <v-col>
-        <h3 v-text="subtitle" />
+        <slot name="subtitle" />
       </v-col>
       <v-col>
-        <slot />
+        <slot name="text" />
       </v-col>
     </v-col>
 
-    <v-col v-if="media">
+    <v-col v-if="media && !inverse">
       <slot name="media" />
     </v-col>
   </v-row>
@@ -21,16 +25,11 @@
 <script>
 export default {
   props: {
-    media: {
+    inverse: {
       type:Boolean
     },
-    title: {
-      type: String,
-      default: 'Title'
-    },
-    subtitle: {
-      type: String,
-      default: 'Subtitle'
+    media: {
+      type:Boolean
     }
   }
 }
