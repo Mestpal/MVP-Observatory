@@ -36,6 +36,7 @@
             v-if="isOverlayShown"
             :absolute="true"
             :opacity="0.84"
+            z-index="0"
           >
             <v-row class="ma-2">
               <v-col>
