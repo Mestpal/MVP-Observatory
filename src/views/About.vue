@@ -2,7 +2,7 @@
   <v-col>
     <section-intro title="About MVP Observatory Project" />
 
-    <section-info-block>
+    <section-info-block class="block-info__negative">
       <template #title>
         <h1>
           Objective
@@ -64,12 +64,42 @@
           For the look&field of the web, we use <b>Vuetify</b> a Material Design Component Framework
           that facilitate us to give you that look that you are used to see in your devices like your smartphone
         </p>
+
+        <p>
+          Agencies API in use: <br>
+          <a
+            href="https://api.nasa.gov/"
+            target="_blank"
+          > NASA API Website</a>
+        </p>
+
+        <p>
+          Space icons design by <a
+            href="https://api.nasa.gov/"
+            target="_blank"
+          > Freepik.com</a>
+        </p>
+      </template>
+
+      <template #media>
+        <v-row
+          no-gutters
+          align="center"
+          justify="center"
+          class="fill-height"
+        >
+          <img
+            alt="Vue logo"
+            src="@/assets/logo.png"
+          >
+        </v-row>
       </template>
     </section-info-block>
 
     <section-info-block
       :media="true"
       :inverse="true"
+      class="block-info__negative"
     >
       <template #title>
         <h1 class="text-right">
@@ -105,6 +135,21 @@
           Now we are working to improve everything, meanwhile, we hope you enjoy your time in MVP Observatory
         </p>
       </template>
+
+      <template #media>
+        <v-row
+          no-gutters
+          align="center"
+          justify="center"
+          class="fill-height"
+        >
+          <v-img
+            alt="Vue logo"
+            src="@/assets/spaceIcons/astronaut.png"
+            width="100px"
+          />
+        </v-row>
+      </template>
     </section-info-block>
   </v-col>
 </template>
@@ -135,3 +180,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .block-info__negative {
+    background-color:white;
+    color: black
+  }
+</style>
