@@ -4,9 +4,9 @@
       <v-col
         v-for="(button, index) in buttons"
         :key="index"
-        :cols="button.size || 2"
+        :cols="button.size"
         align="center"
-        class="mx-auto"
+        class="ma-2"
       >
         <v-btn
           v-if="button.condition"
