@@ -38,7 +38,7 @@
           :right="true"
           :bottom="true"
         >
-          <template v-slot:activator>
+          <template #activator>
             <v-btn
               v-if="isMenuButtonVisible"
               :fab="true"
