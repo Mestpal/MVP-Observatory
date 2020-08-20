@@ -105,7 +105,7 @@ import buttonsRow from '@/components/core/buttonsRow'
 import imageFullFrame from '@/components/molecules/imageFull/ImageFullFrame'
 import imageFullFrameMobile from '@/components/molecules/imageFull/ImageFullFrameMobile'
 import sectionIntro from '@/components/core/sectionIntro'
-import videoComponent from '@/components/core/videoPlayer'
+import videoComponent from '@/components/molecules/video/videoPlayer'
 
 export default {
   name: 'Home',
