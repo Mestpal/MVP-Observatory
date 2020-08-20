@@ -18,11 +18,13 @@
             </div>
           </vue-plyr>
         </v-col>
+
         <v-col :cols="buttonsColSize">
           <buttons-row
             :buttons="buttons"
             :mobile="true"
             @info="onInfo"
+            @openTab="onOpen"
           />
         </v-col>
       </v-row>
@@ -128,7 +130,7 @@ export default {
           color: 'green',
           condition: true,
           event: 'openTab',
-          icon: "mdi-calendar-today",
+          icon: "mdi-keyboard-tab",
           text: 'open'
         }
       ]
@@ -146,6 +148,9 @@ export default {
     },
     onInfo () {
       this.isOverlayShown = true
+    },
+    onOpen () {
+      window.open(this.src, '_blank');
     }
   }
 }
