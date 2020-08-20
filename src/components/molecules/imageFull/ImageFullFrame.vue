@@ -31,32 +31,12 @@
         align="end"
         no-gutters
       >
-        <v-slide-y-reverse-transition>
-          <v-overlay
-            v-if="isOverlayShown"
-            :absolute="true"
-            :opacity="0.84"
-            z-index="0"
-          >
-            <v-row class="ma-2">
-              <v-col>
-                <p
-                  v-if="title"
-                  class="d-flex darken-4 display-1 ma-4 text-justify"
-                  v-text="title"
-                />
-                <p
-                  v-if="description"
-                  class="d-flex darken-4 ma-2 text-justify"
-                  v-text="description"
-                />
-                <p
-                  v-if="copyright"
-                  class="d-flex darken-4 ma-2 text-justify"
-                  v-text="`Author: ${copyright}`"
-                />
-              </v-col>
-            </v-row>
+        <overlay-info
+          :show="isOverlayShown"
+          :description="description"
+          :title="title"
+        >
+          <template>
             <v-row
               justify="center"
               no-gutters
@@ -68,8 +48,8 @@
                 View full size
               </v-btn>
             </v-row>
-          </v-overlay>
-        </v-slide-y-reverse-transition>
+          </template>
+        </overlay-info>
       </v-row>
     </v-card>
     <image-full-frame-modal
@@ -83,10 +63,12 @@
 
 <script>
 import imageFullFrameModal from '@/components/molecules/imageFull/imageFullFrameModal'
+import overlayInfo from '@/components/core/overlayInfo'
 
 export default {
   components: {
-    imageFullFrameModal
+    imageFullFrameModal,
+    overlayInfo
   },
   props: {
     copyright: {
