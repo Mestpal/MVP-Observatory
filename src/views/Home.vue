@@ -7,7 +7,7 @@
     >
       <template #mobile>
         <buttons-row
-          :items="buttons"
+          :buttons="buttons"
           :mobile="checkMobileNavigation"
           @today="onClickToday"
           @prevDay="onClickPrev"
@@ -56,7 +56,7 @@
             v-else
             :copyright="copyright"
             :description="apodData.explanation"
-            :player-title="apodTitle"
+            :mobile="checkMobileNavigation"
             :src="apodSrc"
           />
         </v-col>
@@ -69,7 +69,7 @@
         >
           <buttons-row
             v-if="!checkMobileNavigation || !isLandscape"
-            :items="buttons"
+            :buttons="buttons"
             :mobile="checkMobileNavigation"
             @today="onClickToday"
             @prevDay="onClickPrev"

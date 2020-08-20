@@ -2,26 +2,26 @@
   <v-col cols="12">
     <v-row no-gutters>
       <v-col
-        v-for="(item, index) in items"
+        v-for="(button, index) in buttons"
         :key="index"
-        :cols="item.size || 2"
+        :cols="button.size || 2"
         align="center"
         class="mx-auto"
       >
         <v-btn
-          v-if="item.condition"
-          :color="item.color || 'primary'"
+          v-if="button.condition"
+          :color="button.color || 'primary'"
           :fab="mobile"
           :depressed="mobile"
           :large="!mobile"
           :small="mobile"
-          @click="launchEvent(item.event)"
+          @click="launchEvent(button.event)"
         >
           <v-icon v-if="mobile">
-            {{ item.icon }}
+            {{ button.icon }}
           </v-icon>
           <span v-else>
-            {{ item.text }}
+            {{ button.text }}
           </span>
         </v-btn>
       </v-col>
@@ -32,12 +32,12 @@
 <script>
 export default {
   props: {
-    items:{
+    buttons:{
       type: Array,
       required: true
     },
     mobile: {
-      type:Boolean
+      type: Boolean
     }
   },
   methods: {
