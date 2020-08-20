@@ -22,39 +22,43 @@
           <buttons-row
             :buttons="buttons"
             :mobile="true"
+            @info="onInfo"
           />
         </v-col>
       </v-row>
+    </v-card>
 
-      <!-- <v-card-text>
-        <v-row no-gutters>
-          <v-col
-            class="text-body-1"
-            cols="12"
-            md="6"
-          >
+    <v-row
+      no-gutters
+      align="end"
+    >
+      <overlay-info-mobile
+        :copyright="copyright"
+        :show="isOverlayShown"
+        :title="title"
+        @close="onClose"
+      >
+        <template #content>
+          <v-card-text>
             <p
-              class="d-flex darken-4 mx-4 text-justify"
+              class="darken-4 pr-8 scrollable text-justify"
               v-text="description"
             />
-            <p
-              v-if="copyright"
-              class="d-flex darken-4 mx-4 text-justify"
-              v-text="copyright"
-            />
-          </v-col>
-        </v-row>
-      </v-card-text> -->
-    </v-card>
+          </v-card-text>
+        </template>
+      </overlay-info-mobile>
+    </v-row>
   </v-row>
 </template>
 
 <script>
 import buttonsRow from '@/components/core/buttonsRow'
+import overlayInfoMobile from "@/components/core/overlayInfoMobile"
 
 export default {
   components: {
-    buttonsRow
+    buttonsRow,
+    overlayInfoMobile
   },
   props: {
     copyright: {
@@ -76,6 +80,15 @@ export default {
       type: String,
       required: true
     },
+    title: {
+      type: String,
+      default: null
+    },
+  },
+  data() {
+    return {
+      isOverlayShown: false
+    }
   },
   computed: {
     buttons () {
@@ -100,6 +113,14 @@ export default {
     },
     buttonsColSize () {
       return  this.mobile ? 12 : 1
+    }
+  },
+  methods: {
+    onClose () {
+      this.isOverlayShown = false
+    },
+    onInfo () {
+      this.isOverlayShown = true
     }
   }
 }

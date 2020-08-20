@@ -38,6 +38,7 @@
             :copyright="copyright"
             :description="apodData.explanation"
             :src="apodSrc"
+            :title="apodData.title"
           />
         </v-col>
 
@@ -58,6 +59,7 @@
             :description="apodData.explanation"
             :mobile="checkMobileNavigation"
             :src="apodSrc"
+            :title="apodData.title"
           />
         </v-col>
       </v-col>
