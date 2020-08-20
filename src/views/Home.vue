@@ -7,7 +7,7 @@
     >
       <template #mobile>
         <buttons-row
-          :items="buttons"
+          :buttons="buttons"
           :mobile="checkMobileNavigation"
           @today="onClickToday"
           @prevDay="onClickPrev"
@@ -38,6 +38,7 @@
             :copyright="copyright"
             :description="apodData.explanation"
             :src="apodSrc"
+            :title="apodData.title"
           />
         </v-col>
 
@@ -56,8 +57,9 @@
             v-else
             :copyright="copyright"
             :description="apodData.explanation"
-            :player-title="apodTitle"
+            :mobile="checkMobileNavigation"
             :src="apodSrc"
+            :title="apodData.title"
           />
         </v-col>
       </v-col>
@@ -69,7 +71,7 @@
         >
           <buttons-row
             v-if="!checkMobileNavigation || !isLandscape"
-            :items="buttons"
+            :buttons="buttons"
             :mobile="checkMobileNavigation"
             @today="onClickToday"
             @prevDay="onClickPrev"
@@ -103,7 +105,7 @@ import buttonsRow from '@/components/core/buttonsRow'
 import imageFullFrame from '@/components/molecules/imageFull/ImageFullFrame'
 import imageFullFrameMobile from '@/components/molecules/imageFull/ImageFullFrameMobile'
 import sectionIntro from '@/components/core/sectionIntro'
-import videoComponent from '@/components/core/videoPlayer'
+import videoComponent from '@/components/molecules/video/videoPlayer'
 
 export default {
   name: 'Home',

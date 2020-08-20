@@ -8,7 +8,7 @@ import vuetify from './plugins/vuetify';
 
 Vue.use(VuePlyr, {
   plyr: {
-    fullscreen: { enabled: false }
+    fullscreen: { enabled: true }
   },
   emit: ['ended']
 })
