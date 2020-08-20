@@ -4,7 +4,7 @@
       v-if="show"
       :absolute="true"
       :opacity="0.84"
-      z-index="0"
+      z-index="1"
     >
       <v-row class="ma-2">
         <v-col>

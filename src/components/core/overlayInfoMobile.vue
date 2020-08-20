@@ -4,7 +4,7 @@
       v-if="show"
       :absolute="true"
       :opacity="0.92"
-      z-index="3"
+      z-index="5"
     >
       <v-row @click="onClickClose">
         <v-col
