@@ -26,9 +26,33 @@
           />
         </v-col>
       </v-row>
+
+      <v-row
+        v-if="!mobile"
+        no-gutters
+        align="end"
+      >
+        <overlay-info-mobile
+          :copyright="copyright"
+          :show="isOverlayShown"
+          :title="title"
+          @close="onClose"
+          @click="onClose"
+        >
+          <template #content>
+            <v-card-text>
+              <p
+                class="darken-4 pr-8 scrollable text-justify"
+                v-text="description"
+              />
+            </v-card-text>
+          </template>
+        </overlay-info-mobile>
+      </v-row>
     </v-card>
 
     <v-row
+      v-if="mobile"
       no-gutters
       align="end"
     >
@@ -37,6 +61,7 @@
         :show="isOverlayShown"
         :title="title"
         @close="onClose"
+        @click="onClose"
       >
         <template #content>
           <v-card-text>

@@ -2,9 +2,11 @@
   <v-slide-y-reverse-transition>
     <v-overlay
       v-if="show"
+      :absolute="true"
       :opacity="0.92"
+      z-index="3"
     >
-      <v-row>
+      <v-row @click="onClickClose">
         <v-col
           cols="12"
           sm="4"
