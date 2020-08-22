@@ -82,11 +82,11 @@
               v-model="datePickerDate"
               :disabled="disabled"
               :first-day-of-week="1"
+              :full-width="true"
               :max="today"
               :min="minDateAPOD"
               :reactive="true"
               :show-current="true"
-              :full-width="true"
               @change="onChangeDate"
             />
           </v-col>

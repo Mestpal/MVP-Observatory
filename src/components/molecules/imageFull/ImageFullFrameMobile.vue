@@ -44,7 +44,7 @@
               :fab="true"
               :right="true"
               :medium="true"
-              color="purple"
+              color="accent"
             >
               <v-icon v-if="!fabStatus">
                 mdi-menu
@@ -142,13 +142,13 @@ export default {
           condition: true,
           action: this.onClick,
           icon: 'mdi-information',
-          color: 'secondary'
+          color: 'info'
         },
         {
           condition: true,
           action: this.onClickFullscreen,
           icon: 'mdi-fullscreen',
-          color: 'primary'
+          color: 'secondary'
         }
       ]
     },
