@@ -2,7 +2,8 @@
   <v-app>
     <v-app-bar
       app
-      flat
+      :flat="isDarkTheme"
+      color="primary"
     >
       <v-app-bar-nav-icon
         v-if="!isDrawerVisible"
@@ -10,12 +11,25 @@
       />
       <v-toolbar-title>MVP Observatory</v-toolbar-title>
       <v-spacer />
+      <v-app-bar-nav-icon
+        @click="changeTheme"
+      >
+        <template>
+          <v-icon v-if="isDarkTheme">
+            mdi-white-balance-sunny
+          </v-icon>
+          <v-icon v-else>
+            mdi-moon-waning-crescent
+          </v-icon>
+        </template>
+      </v-app-bar-nav-icon>
     </v-app-bar>
 
     <v-navigation-drawer
       v-model="isDrawerVisible"
       app
-      class="accent-4 deep-purple"
+      class="accent-4"
+      color="info"
     >
       <v-list>
         <v-list-item
@@ -55,7 +69,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -78,10 +92,21 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'isDarkTheme',
       'isMobileBrowser'
     ]),
   },
+  beforeMount () {
+    this.$vuetify.theme.dark = this.isDarkTheme
+  },
   methods: {
+    ...mapActions([
+      'updateTheme'
+    ]),
+    changeTheme () {
+      this.updateTheme()
+      this.$vuetify.theme.dark = this.isDarkTheme
+    },
     updateDrawerVisibility () {
       this.isDrawerVisible = !this.isDrawerVisible
     }
