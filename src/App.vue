@@ -10,6 +10,18 @@
       />
       <v-toolbar-title>MVP Observatory</v-toolbar-title>
       <v-spacer />
+      <v-app-bar-nav-icon
+        @click="changeTheme"
+      >
+        <template>
+          <v-icon v-if="isDarkTheme">
+            mdi-moon-waning-crescent
+          </v-icon>
+          <v-icon v-else>
+            mdi-white-balance-sunny
+          </v-icon>
+        </template>
+      </v-app-bar-nav-icon>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -55,7 +67,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -78,10 +90,21 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'isDarkTheme',
       'isMobileBrowser'
     ]),
   },
+  beforeMount () {
+    this.$vuetify.theme.dark = this.isDarkTheme
+  },
   methods: {
+    ...mapActions([
+      'updateTheme'
+    ]),
+    changeTheme () {
+      this.updateTheme()
+      this.$vuetify.theme.dark = this.isDarkTheme
+    },
     updateDrawerVisibility () {
       this.isDrawerVisible = !this.isDrawerVisible
     }
