@@ -14,16 +14,21 @@ const vuexLocal = new VuexPersistence({
 export default new Vuex.Store({
   state: {
     apod: {},
+    darkTheme: true,
     dateApod: null,
   },
   getters: {
     apodData: (state) => (state.apod),
+    isDarkTheme: (state) => (state.darkTheme),
     isMobileBrowser: () => (isMobile()),
     selectedApodDate: (state) => (state.dateApod)
   },
   mutations: {
     updateApod (state, date) {
       state.apod = date
+    },
+    updateTheme (state) {
+      state.darkTheme = !state.darkTheme
     },
     updateDateApod (state, date) {
       state.dateApod = date
@@ -46,6 +51,9 @@ export default new Vuex.Store({
     },
     setApodDate ({ commit }, date) {
       commit('updateDateApod', date)
+    },
+    updateTheme ({ commit }) {
+      commit('updateTheme')
     }
   },
   plugins: [vuexLocal.plugin]
