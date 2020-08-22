@@ -10,7 +10,7 @@
       >
         <v-btn
           v-if="button.condition"
-          :color="button.color || 'primary'"
+          :color="button.color || 'secondary'"
           :fab="mobile"
           :depressed="mobile"
           :large="!mobile"
