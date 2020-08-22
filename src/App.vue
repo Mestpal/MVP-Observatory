@@ -2,7 +2,8 @@
   <v-app>
     <v-app-bar
       app
-      flat
+      :flat="isDarkTheme"
+      color="primary"
     >
       <v-app-bar-nav-icon
         v-if="!isDrawerVisible"
@@ -15,10 +16,10 @@
       >
         <template>
           <v-icon v-if="isDarkTheme">
-            mdi-moon-waning-crescent
+            mdi-white-balance-sunny
           </v-icon>
           <v-icon v-else>
-            mdi-white-balance-sunny
+            mdi-moon-waning-crescent
           </v-icon>
         </template>
       </v-app-bar-nav-icon>
@@ -27,7 +28,8 @@
     <v-navigation-drawer
       v-model="isDrawerVisible"
       app
-      class="accent-4 deep-purple"
+      class="accent-4"
+      color="info"
     >
       <v-list>
         <v-list-item
