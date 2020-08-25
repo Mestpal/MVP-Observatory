@@ -3,7 +3,7 @@ export default {
     return {
       sections:[
         {
-          title: 'Image of the day (APOD)',
+          title: 'Image of the day',
           icon: 'mdi-image',
           route: '/nasa/apod'
         }
