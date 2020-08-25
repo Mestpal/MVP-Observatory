@@ -1,6 +1,12 @@
 <template>
   <v-col>
-    <section-intro title="About MVP Observatory Project" />
+    <section-info-block>
+      <template #title>
+        <h1 class="text-center">
+          About MVP Observatory Project
+        </h1>
+      </template>
+    </section-info-block>
 
     <section-info-block class="block-info__negative">
       <template #title>
@@ -155,12 +161,10 @@
 </template>
 
 <script>
-import sectionIntro from '@/components/core/sectionIntro'
 import sectionInfoBlock from '@/components/core/sectionInfoBlock'
 
 export default {
   components: {
-    sectionIntro,
     sectionInfoBlock
   },
   data() {

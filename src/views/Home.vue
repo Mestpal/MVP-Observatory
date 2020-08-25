@@ -1,126 +1,58 @@
 <template>
   <v-col>
-    <section-intro
-      :landscape="isLandscape"
-      :mobile="isLandscape"
-      :title="apodTitle"
-    >
-      <template #mobile>
-        <buttons-row
-          :buttons="buttons"
-          :mobile="checkMobileNavigation"
-          @today="onClickToday"
-          @prevDay="onClickPrev"
-          @nextDay="onClickNext"
-        />
+    <section-info-block>
+      <template #title>
+        <h1 class="text-center">
+          Welcome to MVP-Observatory
+        </h1>
       </template>
-    </section-intro>
+    </section-info-block>
 
-    <v-row no-gutters>
-      <v-col
-        v-if="Object.keys(apodData).length"
-        :cols="landscapeColsSize"
-        class="ma-0 pa-0"
+    <v-col>
+      <v-expansion-panels
+        v-model="openPanel"
+        flat
+        multiple
+        outline
       >
-        <v-col
-          v-if="!checkMobileNavigation"
-          class="ma-0 pa-0"
-        >
-          <image-full-frame
-            v-if="!isVideo"
-            :copyright="copyright"
-            :description="apodData.explanation"
-            :src="apodSrc"
-            :title="apodData.title"
-          />
-          <video-component
-            v-else
-            :copyright="copyright"
-            :description="apodData.explanation"
-            :src="apodSrc"
-            :title="apodData.title"
-          />
-        </v-col>
-
-        <v-col
-          v-else
-          class="ma-0 pa-0"
-        >
-          <image-full-frame-mobile
-            v-if="!isVideo"
-            :copyright="copyright"
-            :description="apodData.explanation"
-            :src="apodSrc"
-            :title="apodData.title"
-          />
-          <video-component
-            v-else
-            :copyright="copyright"
-            :description="apodData.explanation"
-            :mobile="checkMobileNavigation"
-            :src="apodSrc"
-            :title="apodData.title"
-          />
-        </v-col>
-      </v-col>
-
-      <v-col :cols="landscapeColsSize">
-        <v-col
-          :class="{'pa-0': !isLandscape}"
-          class="py-0"
-        >
-          <buttons-row
-            v-if="!checkMobileNavigation || !isLandscape"
-            :buttons="buttons"
-            :mobile="checkMobileNavigation"
-            @today="onClickToday"
-            @prevDay="onClickPrev"
-            @nextDay="onClickNext"
-          />
-          <v-col class="pa-0">
-            <v-date-picker
-              v-model="datePickerDate"
-              :disabled="disabled"
-              :first-day-of-week="1"
-              :full-width="true"
-              :max="today"
-              :min="minDateAPOD"
-              :reactive="true"
-              :show-current="true"
-              @change="onChangeDate"
-            />
-          </v-col>
-        </v-col>
-      </v-col>
-    </v-row>
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <h2>
+              NASA
+            </h2>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <p>
+              Here you can consult the public data of the NASA, choose one of
+              the available sections to start exploring
+            </p>
+            <select-section-menu />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </v-col>
   </v-col>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import isEmpty from 'lodash/isEmpty'
 import moment from 'moment'
 
-import buttonsRow from '@/components/core/buttonsRow'
-import imageFullFrame from '@/components/molecules/imageFull/ImageFullFrame'
-import imageFullFrameMobile from '@/components/molecules/imageFull/ImageFullFrameMobile'
-import sectionIntro from '@/components/core/sectionIntro'
-import videoComponent from '@/components/molecules/video/videoPlayer'
+import sectionInfoBlock from '@/components/core/sectionInfoBlock'
+import selectSectionMenu from '@/components/core/selectSectionMenu'
 
 export default {
   name: 'Home',
   components: {
-    buttonsRow,
-    imageFullFrame,
-    imageFullFrameMobile,
-    sectionIntro,
-    videoComponent
+    sectionInfoBlock,
+    selectSectionMenu
   },
   data () {
     return {
-      apodTitle: "NASA Image of the Day",
-      disabled: false,
-      minDateAPOD: "2015-01-01"
+      // apodTitle: "NASA Image of the Day",
+      // disabled: false,
+      // minDateAPOD: "2015-01-01"
+      openPanel: [0]
     }
   },
   computed: {
@@ -181,10 +113,6 @@ export default {
     today () {
       return moment().toISOString().substr(0, 10)
     }
-  },
-  mounted () {
-    if (!this.datePickerDate) this.datePickerDate = this.today
-    if(isEmpty(this.apodData)) this.getApod()
   },
   methods: {
     ...mapActions([

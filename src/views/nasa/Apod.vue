@@ -1,11 +1,19 @@
 <template>
   <v-col>
-    <section-intro
-      :landscape="isLandscape"
-      :mobile="isLandscape"
-      :title="apodTitle"
-    >
-      <template #mobile>
+    <section-info-block :media="isLandscape">
+      <template #title>
+        <h1
+          v-if="checkMobileNavigation"
+          class="text-center"
+          v-text="apodTitle"
+        />
+        <h2
+          v-else
+          class="text-center"
+          v-text="apodTitle"
+        />
+      </template>
+      <template #media>
         <buttons-row
           :buttons="buttons"
           :mobile="checkMobileNavigation"
@@ -14,7 +22,7 @@
           @nextDay="onClickNext"
         />
       </template>
-    </section-intro>
+    </section-info-block>
 
     <v-row no-gutters>
       <v-col
@@ -104,7 +112,7 @@ import moment from 'moment'
 import buttonsRow from '@/components/core/buttonsRow'
 import imageFullFrame from '@/components/molecules/imageFull/ImageFullFrame'
 import imageFullFrameMobile from '@/components/molecules/imageFull/ImageFullFrameMobile'
-import sectionIntro from '@/components/core/sectionIntro'
+import sectionInfoBlock from '@/components/core/sectionInfoBlock'
 import videoComponent from '@/components/molecules/video/videoPlayer'
 
 export default {
@@ -113,7 +121,7 @@ export default {
     buttonsRow,
     imageFullFrame,
     imageFullFrameMobile,
-    sectionIntro,
+    sectionInfoBlock,
     videoComponent
   },
   data () {
