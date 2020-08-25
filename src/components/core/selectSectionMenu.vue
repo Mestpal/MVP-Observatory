@@ -3,33 +3,35 @@
     <v-col
       v-for="(section, index) in sections"
       :key="index"
-      cols="4"
-      class="pa-2"
     >
       <v-card
         v-bind="$attrs"
-        min-width="75px"
-        min-height="100px"
+        class="ma-2 px-4"
+        height="200px"
         @click="onClick(section.route)"
       >
-        <v-card-title
+        <v-row
           v-if="section.title"
-          primary-title
+          align="center"
+          class="card-block"
         >
-          <v-row justify="center">
+          <v-col class="text-center text-h5 text-truncate">
             {{ section.title }}
-          </v-row>
-        </v-card-title>
-        <v-card-text class="text-center">
-          <v-row justify="center">
-            <v-icon
-              v-if="section.icon"
-              :x-large="true"
-            >
-              {{ section.icon }}
-            </v-icon>
-          </v-row>
-        </v-card-text>
+          </v-col>
+        </v-row>
+
+        <v-row
+          justify="center"
+          align="center"
+          class="card-block"
+        >
+          <v-icon
+            v-if="section.icon"
+            :x-large="true"
+          >
+            {{ section.icon }}
+          </v-icon>
+        </v-row>
       </v-card>
     </v-col>
   </v-row>
@@ -50,3 +52,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+  div.card-block {
+    height: 100px;
+  }
+</style>
