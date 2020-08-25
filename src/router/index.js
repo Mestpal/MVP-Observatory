@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '@/views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -13,14 +13,14 @@ Vue.use(VueRouter)
   {
     path: '/about',
     name: 'About',
-    component: () => import('../views/About.vue')
+    component: () => import('@/views/About.vue')
   },
   {
     path: '/nasa',
-    component: () => import('../Index.vue'),
+    component: () => import('@/Index.vue'),
     children: [
-      { path: '', component: () => import('@/components/core/selectSectionMenu.vue') },
-      { path: 'apod', component: () => import('../views/nasa/Apod.vue') },
+      { path: '', component: () => import('@/views/nasa/Index.vue') },
+      { path: 'apod', component: () => import('@/views/nasa/Apod.vue') },
     ]
   }
 ]
