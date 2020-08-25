@@ -90,7 +90,7 @@ export default {
         {
           icon:'mdi-help-box',
           title: 'About',
-          route: 'about'
+          route: '/about'
         }
       ]
     }
