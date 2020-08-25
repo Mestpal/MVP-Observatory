@@ -83,6 +83,11 @@ export default {
           route: '/'
         },
         {
+          icon:'mdi-rocket-launch-outline',
+          title: 'Nasa',
+          route: '/nasa'
+        },
+        {
           icon:'mdi-help-box',
           title: 'About',
           route: 'about'
