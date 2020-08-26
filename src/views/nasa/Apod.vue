@@ -72,19 +72,24 @@
         </v-col>
       </v-col>
 
-      <v-col :cols="landscapeColsSize">
+      <v-col v-if=" !isLandscape">
+        <buttons-row
+          :buttons="buttons"
+          :mobile="checkMobileNavigation"
+          @today="onClickToday"
+          @prevDay="onClickPrev"
+          @nextDay="onClickNext"
+        />
+      </v-col>
+
+      <v-col
+        v-if="isLandscape"
+        :cols="landscapeColsSize"
+      >
         <v-col
           :class="{'pa-0': !isLandscape}"
           class="py-0"
         >
-          <buttons-row
-            v-if="!checkMobileNavigation || !isLandscape"
-            :buttons="buttons"
-            :mobile="checkMobileNavigation"
-            @today="onClickToday"
-            @prevDay="onClickPrev"
-            @nextDay="onClickNext"
-          />
           <v-col class="pa-0">
             <v-date-picker
               v-model="datePickerDate"
@@ -150,8 +155,15 @@ export default {
         },
         {
           color: 'orange',
-          condition: this.today !== this.datePickerDate,
+          condition: (this.today !== this.datePickerDate) && this.isLandscape,
           event: 'today',
+          icon: "mdi-calendar-today",
+          text: 'Today'
+        },
+        {
+          color: 'indigo',
+          condition: !this.isLandscape,
+          event: 'datepicker',
           icon: "mdi-calendar-today",
           text: 'Today'
         },
