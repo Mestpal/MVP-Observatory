@@ -83,7 +83,7 @@
       </v-col>
 
       <v-col
-        v-if="isLandscape"
+        v-if="!checkMobileNavigation || isLandscape"
         :cols="landscapeColsSize"
       >
         <v-col
@@ -155,14 +155,14 @@ export default {
         },
         {
           color: 'orange',
-          condition: (this.today !== this.datePickerDate) && this.isLandscape,
+          condition: (this.today !== this.datePickerDate && !this.checkMobileNavigation) || this.isLandscape,
           event: 'today',
           icon: "mdi-calendar-today",
           text: 'Today'
         },
         {
           color: 'indigo',
-          condition: !this.isLandscape,
+          condition: !this.isLandscape && this.checkMobileNavigation,
           event: 'datepicker',
           icon: "mdi-calendar-today",
           text: 'Today'
