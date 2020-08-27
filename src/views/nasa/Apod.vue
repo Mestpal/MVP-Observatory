@@ -13,6 +13,7 @@
           v-text="apodTitle"
         />
       </template>
+
       <template #media>
         <buttons-row
           :buttons="buttons"
@@ -28,7 +29,6 @@
       <v-col
         v-if="Object.keys(apodData).length"
         :cols="landscapeColsSize"
-        class="ma-0 pa-0"
       >
         <v-col
           v-if="!checkMobileNavigation"
@@ -79,6 +79,7 @@
           @today="onClickToday"
           @prevDay="onClickPrev"
           @nextDay="onClickNext"
+          @show-datepicker="onClickShowDatepicker"
         />
       </v-col>
 
@@ -90,22 +91,39 @@
           :class="{'pa-0': !isLandscape}"
           class="py-0"
         >
-          <v-col class="pa-0">
-            <v-date-picker
-              v-model="datePickerDate"
-              :disabled="disabled"
-              :first-day-of-week="1"
-              :full-width="true"
-              :max="today"
-              :min="minDateAPOD"
-              :reactive="true"
-              :show-current="true"
-              @change="onChangeDate"
-            />
-          </v-col>
+          <v-date-picker
+            v-model="datePickerDate"
+            :disabled="disabledDatePicker"
+            :first-day-of-week="1"
+            :full-width="true"
+            :max="today"
+            :min="minDateAPOD"
+            :reactive="true"
+            :show-current="true"
+            @change="onChangeDate"
+          />
         </v-col>
       </v-col>
     </v-row>
+
+    <overlay-info-mobile
+      :show="showMobileDatePicker"
+      @close="onCloseModal"
+    >
+      <template #content>
+        <v-date-picker
+          v-model="datePickerDate"
+          :disabled="disabledDatePicker"
+          :first-day-of-week="1"
+          :full-width="true"
+          :max="today"
+          :min="minDateAPOD"
+          :reactive="true"
+          :show-current="true"
+          @change="onChangeDate"
+        />
+      </template>
+    </overlay-info-mobile>
   </v-col>
 </template>
 
@@ -117,6 +135,7 @@ import moment from 'moment'
 import buttonsRow from '@/components/core/buttonsRow'
 import imageFullFrame from '@/components/molecules/imageFull/ImageFullFrame'
 import imageFullFrameMobile from '@/components/molecules/imageFull/ImageFullFrameMobile'
+import overlayInfoMobile from "@/components/core/overlayInfoMobile"
 import sectionInfoBlock from '@/components/core/sectionInfoBlock'
 import videoComponent from '@/components/molecules/video/videoPlayer'
 
@@ -126,14 +145,16 @@ export default {
     buttonsRow,
     imageFullFrame,
     imageFullFrameMobile,
+    overlayInfoMobile,
     sectionInfoBlock,
     videoComponent
   },
   data () {
     return {
       apodTitle: "NASA Image of the Day",
-      disabled: false,
-      minDateAPOD: "2015-01-01"
+      disabledDatePicker: false,
+      minDateAPOD: "2015-01-01",
+      showMobileDatePicker: false
     }
   },
   computed: {
@@ -155,7 +176,7 @@ export default {
         },
         {
           color: 'orange',
-          condition: (this.today !== this.datePickerDate && !this.checkMobileNavigation) || this.isLandscape,
+          condition: (this.today !== this.datePickerDate ) && (this.isLandscape || !this.checkMobileNavigation),
           event: 'today',
           icon: "mdi-calendar-today",
           text: 'Today'
@@ -163,7 +184,7 @@ export default {
         {
           color: 'indigo',
           condition: !this.isLandscape && this.checkMobileNavigation,
-          event: 'datepicker',
+          event: 'show-datepicker',
           icon: "mdi-calendar-today",
           text: 'Today'
         },
@@ -212,9 +233,10 @@ export default {
       'setApodDate'
     ]),
     async onChangeDate () {
-      this.disabled = true
+      this.disabledDatePicker = true
       await this.getApod(this.selectedApodDate)
-      this.disabled = false
+      this.disabledDatePicker = false
+      this.onCloseModal()
     },
     onClickNext () {
       const nextDate = moment(this.datePickerDate, 'YYYY-MM-DD').hour(23)
@@ -232,9 +254,15 @@ export default {
       this.datePickerDate = prevDate
       this.onChangeDate()
     },
+    onClickShowDatepicker () {
+      this.showMobileDatePicker = true
+    },
     onClickToday () {
       this.datePickerDate = this.today
       this.onChangeDate()
+    },
+    onCloseModal () {
+      this.showMobileDatePicker = false
     }
   }
 }
