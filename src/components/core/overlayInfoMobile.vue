@@ -2,20 +2,19 @@
   <v-slide-y-reverse-transition>
     <v-overlay
       v-if="show"
-      :absolute="true"
       :opacity="0.92"
-      z-index="4"
+      z-index="6"
     >
-      <v-row @click="onClickClose">
+      <v-row>
         <v-col
           cols="12"
           sm="4"
           align="center"
         >
           <v-row
-            class="fill-height"
             align="center"
             justify="center"
+            class="py-2"
           >
             <v-col
               sm="12"
@@ -39,6 +38,7 @@
               cols="2"
               align="center"
               justify="center"
+              class="pa-0"
             >
               <v-row
                 justify="center"
@@ -61,18 +61,14 @@
         <v-col
           cols="12"
           sm="8"
+          class="py-0"
         >
           <v-row
             class="fill-height"
             align="center"
             justify="center"
           >
-            <v-card
-              flat
-              color="transparent"
-            >
-              <slot name="content" />
-            </v-card>
+            <slot name="content" />
           </v-row>
         </v-col>
       </v-row>
