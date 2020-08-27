@@ -13,7 +13,7 @@
 
       <v-img
         :src="src"
-        :height="isLandscape ? '100vh' : '60vh'"
+        :height="isLandscape ? '100vh' : '70vh'"
         width="100vw"
         @load="showMenuButton"
       >
@@ -80,18 +80,23 @@
         @close="onClose"
       >
         <template #content>
-          <v-card-text
-            v-if="description && !isfullImageVisible"
-            :class="{textHeight: isLandscape}"
-            class="darken-4 pr-8 scrollable text-justify"
-            v-text="description"
-          />
-          <v-img
+          <v-col v-if="description && !isfullImageVisible">
+            <v-card-text
+              :class="{textHeight: isLandscape}"
+              class="darken-4 scrollable text-justify"
+              v-text="description"
+            />
+          </v-col>
+          <v-col
             v-else
-            contain
-            :src="src"
-            :width="previewWitdh"
-          />
+            class="ml-4"
+          >
+            <v-img
+              contain
+              :src="src"
+              :width="previewWitdh"
+            />
+          </v-col>
         </template>
       </overlay-info-mobile>
     </v-row>

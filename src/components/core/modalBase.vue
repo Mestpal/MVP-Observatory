@@ -31,11 +31,6 @@ export default {
       type: Boolean,
       required: true
     }
-  },
-  methods: {
-    onClickClose () {
-      this.$emit('close')
-    }
   }
 }
 </script>
