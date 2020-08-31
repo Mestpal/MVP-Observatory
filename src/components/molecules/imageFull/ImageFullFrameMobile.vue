@@ -68,57 +68,12 @@
         </v-speed-dial>
       </v-row>
     </v-card>
-
-    <v-row
-      align="end"
-      no-gutters
-    >
-      <overlay-info-mobile
-        :copyright="copyright"
-        :show="isOverlayShown"
-        :title="title"
-        @close="onClose"
-      >
-        <template #content>
-          <v-col v-if="description && !isfullImageVisible">
-            <v-card-text
-              :class="{textHeight: isLandscape}"
-              class="darken-4 scrollable text-justify"
-              v-text="description"
-            />
-          </v-col>
-          <v-col
-            v-else
-            class="ml-4"
-          >
-            <v-img
-              contain
-              :src="src"
-              :width="previewWitdh"
-            />
-          </v-col>
-        </template>
-      </overlay-info-mobile>
-    </v-row>
   </v-col>
 </template>
 
 <script>
-import overlayInfoMobile from "@/components/core/overlayInfoMobile"
-
 export default {
-  components: {
-    overlayInfoMobile
-  },
   props: {
-    copyright: {
-      type: String,
-      default: null
-    },
-    description: {
-      type: String,
-      required: true
-    },
     playerTitle: {
       type: String,
       default: null
@@ -126,18 +81,12 @@ export default {
     src: {
       type: String,
       required: true
-    },
-    title: {
-      type: String,
-      default: null
     }
   },
   data() {
     return {
       fabStatus: false,
       isMenuButtonVisible: false,
-      isfullImageVisible: false,
-      isOverlayShown: false
     }
   },
   computed: {
@@ -160,9 +109,6 @@ export default {
     isLandscape () {
       return this.$vuetify.breakpoint.smAndUp
     },
-    previewWitdh () {
-      return this.isLandscape ? "60vw" : "90vw"
-    }
   },
   watch: {
     src (){
@@ -171,15 +117,10 @@ export default {
   },
   methods: {
     onClick () {
-      this.isOverlayShown = true
+      this.$emit('overlay')
     },
     onClickFullscreen () {
-      this.onClick()
-      this.isfullImageVisible = true
-    },
-    onClose () {
-      this.isOverlayShown = false
-      this.isfullImageVisible = false
+      this.$emit('fullframe')
     },
     showMenuButton () {
       this.isMenuButtonVisible = true
