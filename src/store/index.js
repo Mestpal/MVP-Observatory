@@ -1,5 +1,4 @@
 import axios from 'axios'
-import isMobile from 'is-mobile'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
@@ -25,7 +24,6 @@ export default new Vuex.Store({
     apodData: (state) => (state.apod),
     epicData: (state) => (state.epic),
     isDarkTheme: (state) => (state.darkTheme),
-    isMobileBrowser: () => (isMobile()),
     selectedApodDate: (state) => (state.dateApod),
     selectedEpicDate: (state) => (state.dateEpic)
   },
@@ -56,7 +54,7 @@ export default new Vuex.Store({
       const apod = await axios.get(`${process.env.VUE_APP_NASA_API_BASE_URL}planetary/apod`, {
         params: params
       })
-      commit('updateApodDate', apod.data)
+      commit('updateApodData', apod.data)
     },
     async getEpic ({ commit }, date) {
       if (date) {
