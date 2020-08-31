@@ -11,21 +11,30 @@ const vuexLocal = new VuexPersistence({
   storage: window.localStorage
 })
 
+let params = {}
+
 export default new Vuex.Store({
   state: {
     apod: {},
     darkTheme: true,
     dateApod: null,
+    dateEpic: null,
+    epic: null
   },
   getters: {
     apodData: (state) => (state.apod),
+    epicData: (state) => (state.epic),
     isDarkTheme: (state) => (state.darkTheme),
     isMobileBrowser: () => (isMobile()),
-    selectedApodDate: (state) => (state.dateApod)
+    selectedApodDate: (state) => (state.dateApod),
+    selectedEpicDate: (state) => (state.dateEpic)
   },
   mutations: {
-    updateApod (state, date) {
-      state.apod = date
+    updateApodData (state, data) {
+      state.apod = data
+    },
+    updateEpicData (state, data) {
+      state.epic = data
     },
     updateTheme (state) {
       state.darkTheme = !state.darkTheme
@@ -36,7 +45,7 @@ export default new Vuex.Store({
   },
   actions: {
     async getApod ({ commit }, date) {
-      const params = {
+      params = {
         api_key: process.env.VUE_APP_NASA_APIKEY,
       }
 
@@ -47,7 +56,17 @@ export default new Vuex.Store({
       const apod = await axios.get(`${process.env.VUE_APP_NASA_API_BASE_URL}planetary/apod`, {
         params: params
       })
-      commit('updateApod', apod.data)
+      commit('updateApodDate', apod.data)
+    },
+    async getEpic ({ commit }, date) {
+      if (date) {
+        params.date = date
+      }
+
+      const epic = await axios.get(`${process.env.VUE_APP_NASA_EPIC_BASE_URL}natural`, {
+        params: params
+      })
+      commit('updateEpicData', epic.data)
     },
     setApodDate ({ commit }, date) {
       commit('updateDateApod', date)
