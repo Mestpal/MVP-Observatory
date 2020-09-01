@@ -10,6 +10,9 @@ export default {
     isLandscape () {
       return this.checkMobileNavigation && this.$vuetify.breakpoint.smAndUp
     },
+    moment () {
+      return moment
+    },
     previewWitdhMobile () {
       return this.isLandscape ? "60vw" : "65vw"
     },
