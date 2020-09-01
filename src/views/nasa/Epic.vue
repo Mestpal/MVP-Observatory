@@ -14,10 +14,12 @@
         />
       </template>
     </section-info-block>
-
     <v-row no-gutters>
       <v-col>
-        <v-carousel :hide-delimiters="true" @change="setActualSlide">
+        <v-carousel
+          :hide-delimiters="true"
+          @change="setActualSlide"
+        >
           <v-carousel-item
             v-for="(epic, index) in epicData"
             :key="index"
@@ -110,12 +112,18 @@ export default {
     imageBaseUrl () {
       return process.env.VUE_APP_NASA_EPIC_ARCHIVE_BASE_URL
     },
-    selectedEpicDateArray () {
-      return this.today.split("-")
+    maxDate(){
+      return this.moment()
+        .subtract(24, 'hours')
+        .toISOString()
+        .substr(0, 10)
+    },
+    selectedDateArray () {
+      return this.maxDate.split("-")
     }
   },
   mounted () {
-    if (!this.datePickerDate) this.datePickerDate = this.today
+    if (!this.datePickerDate) this.datePickerDate = this.maxDate
     if(isEmpty(this.apodData)) this.getEpic()
   },
   methods: {
@@ -124,7 +132,7 @@ export default {
       'setApodDate'
     ]),
     getUrlImage(image) {
-      return`${this.imageBaseUrl}/natural/${this.selectedEpicDateArray[0]}/${this.selectedEpicDateArray[1]}/${this.selectedEpicDateArray[2] - 1}/jpg/${image}.jpg`
+      return`${this.imageBaseUrl}natural/${this.selectedDateArray[0]}/${this.selectedDateArray[1]}/${this.selectedDateArray[2]}/jpg/${image}.jpg`
     },
     hideOverlay () {
       this.isOverlayShown = false

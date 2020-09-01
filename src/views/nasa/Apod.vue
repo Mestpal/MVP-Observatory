@@ -263,16 +263,16 @@ export default {
       this.onCloseModal()
     },
     onClickNext () {
-      const nextDate = moment(this.datePickerDate, 'YYYY-MM-DD').hour(23)
-        .add(1, 'days')
+      const nextDate = moment(this.datePickerDate, 'YYYY-MM-DD')
+        .add(24, 'hours')
         .toISOString()
         .substr(0, 10)
       this.datePickerDate = nextDate
       this.onChangeDate()
     },
     onClickPrev () {
-      const prevDate = moment(this.datePickerDate, 'YYYY-MM-DD').hour(23)
-        .subtract(1, 'days')
+      const prevDate = moment(this.datePickerDate, 'YYYY-MM-DD')
+        .subtract(24, 'hours')
         .toISOString()
         .substr(0, 10)
       this.datePickerDate = prevDate
