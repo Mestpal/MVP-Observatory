@@ -13,6 +13,7 @@
           v-text="apodTitle"
         />
       </template>
+
       <template #media>
         <buttons-row
           :buttons="buttons"
@@ -28,7 +29,6 @@
       <v-col
         v-if="Object.keys(apodData).length"
         :cols="landscapeColsSize"
-        class="ma-0 pa-0"
       >
         <v-col
           v-if="!checkMobileNavigation"
@@ -60,6 +60,8 @@
             :description="apodData.explanation"
             :src="apodSrc"
             :title="apodData.title"
+            @fullframe="showOverlayImage"
+            @overlay="showOverlay"
           />
           <video-component
             v-else
@@ -69,38 +71,93 @@
             :src="apodSrc"
             :title="apodData.title"
           />
+
+          <v-row
+            align="end"
+            no-gutters
+          >
+            <overlay-info-mobile
+              :copyright="copyright"
+              :show="isOverlayShown"
+              :title="apodData.title"
+              @close="hideOverlay"
+            >
+              <template #content>
+                <v-col v-if="apodData.explanation && !isfullImageVisible">
+                  <v-card-text
+                    :class="{textHeight: isLandscape}"
+                    class="darken-4 scrollable text-justify"
+                    v-text="apodData.explanation"
+                  />
+                </v-col>
+                <v-col
+                  v-else
+                  class="ml-4"
+                >
+                  <v-img
+                    contain
+                    :src="apodSrc"
+                    :width="previewWitdhMobile"
+                  />
+                </v-col>
+              </template>
+            </overlay-info-mobile>
+          </v-row>
         </v-col>
       </v-col>
 
-      <v-col :cols="landscapeColsSize">
+      <v-col v-if=" !isLandscape">
+        <buttons-row
+          :buttons="buttons"
+          :mobile="checkMobileNavigation"
+          @today="onClickToday"
+          @prevDay="onClickPrev"
+          @nextDay="onClickNext"
+          @show-datepicker="onClickShowDatepicker"
+        />
+      </v-col>
+
+      <v-col
+        v-if="!checkMobileNavigation || isLandscape"
+        :cols="landscapeColsSize"
+      >
         <v-col
           :class="{'pa-0': !isLandscape}"
           class="py-0"
         >
-          <buttons-row
-            v-if="!checkMobileNavigation || !isLandscape"
-            :buttons="buttons"
-            :mobile="checkMobileNavigation"
-            @today="onClickToday"
-            @prevDay="onClickPrev"
-            @nextDay="onClickNext"
+          <v-date-picker
+            v-model="datePickerDate"
+            :disabled="disabledDatePicker"
+            :first-day-of-week="1"
+            :full-width="true"
+            :max="today"
+            :min="minDateAPOD"
+            :reactive="true"
+            :show-current="true"
+            @change="onChangeDate"
           />
-          <v-col class="pa-0">
-            <v-date-picker
-              v-model="datePickerDate"
-              :disabled="disabled"
-              :first-day-of-week="1"
-              :full-width="true"
-              :max="today"
-              :min="minDateAPOD"
-              :reactive="true"
-              :show-current="true"
-              @change="onChangeDate"
-            />
-          </v-col>
         </v-col>
       </v-col>
     </v-row>
+
+    <overlay-info-mobile
+      :show="showMobileDatePicker"
+      @close="onCloseModal"
+    >
+      <template #content>
+        <v-date-picker
+          v-model="datePickerDate"
+          :disabled="disabledDatePicker"
+          :first-day-of-week="1"
+          :full-width="true"
+          :max="today"
+          :min="minDateAPOD"
+          :reactive="true"
+          :show-current="true"
+          @change="onChangeDate"
+        />
+      </template>
+    </overlay-info-mobile>
   </v-col>
 </template>
 
@@ -109,32 +166,34 @@ import { mapGetters, mapActions } from 'vuex'
 import isEmpty from 'lodash/isEmpty'
 import moment from 'moment'
 
+import commons from '@/mixins/commons'
 import buttonsRow from '@/components/core/buttonsRow'
-import imageFullFrame from '@/components/molecules/imageFull/ImageFullFrame'
-import imageFullFrameMobile from '@/components/molecules/imageFull/ImageFullFrameMobile'
 import sectionInfoBlock from '@/components/core/sectionInfoBlock'
-import videoComponent from '@/components/molecules/video/videoPlayer'
 
 export default {
   name: 'Home',
   components: {
+    imageFullFrame: () => import("@/components/molecules/imageFull/ImageFullFrame"),
+    imageFullFrameMobile: () => import("@/components/molecules/imageFull/ImageFullFrameMobile"),
+    overlayInfoMobile: () => import("@/components/core/overlayInfoMobile"),
+    videoComponent: () => import("@/components/molecules/video/videoPlayer"),
     buttonsRow,
-    imageFullFrame,
-    imageFullFrameMobile,
-    sectionInfoBlock,
-    videoComponent
+    sectionInfoBlock
   },
+  mixins: [commons],
   data () {
     return {
       apodTitle: "NASA Image of the Day",
-      disabled: false,
-      minDateAPOD: "2015-01-01"
+      disabledDatePicker: false,
+      isfullImageVisible: false,
+      isOverlayShown: false,
+      minDateAPOD: "2015-01-01",
+      showMobileDatePicker: false
     }
   },
   computed: {
     ...mapGetters([
       'apodData',
-      'isMobileBrowser',
       'selectedApodDate'
     ]),
     apodSrc () {
@@ -150,8 +209,15 @@ export default {
         },
         {
           color: 'orange',
-          condition: this.today !== this.datePickerDate,
+          condition: (this.today !== this.datePickerDate ) && (this.isLandscape || !this.checkMobileNavigation),
           event: 'today',
+          icon: "mdi-calendar-today",
+          text: 'Today'
+        },
+        {
+          color: 'indigo',
+          condition: !this.isLandscape && this.checkMobileNavigation,
+          event: 'show-datepicker',
           icon: "mdi-calendar-today",
           text: 'Today'
         },
@@ -162,9 +228,6 @@ export default {
           text: 'Next'
         }
       ]
-    },
-    checkMobileNavigation () {
-      return this.isMobileBrowser || this.$vuetify.breakpoint.smAndDown
     },
     copyright () {
       return this.apodData.copyright || null
@@ -180,14 +243,8 @@ export default {
     landscapeColsSize () {
       return this.isLandscape ? 6 : 12
     },
-    isLandscape () {
-      return this.checkMobileNavigation && this.$vuetify.breakpoint.smAndUp
-    },
     isVideo () {
       return this.apodData.media_type === 'video'
-    },
-    today () {
-      return moment().toISOString().substr(0, 10)
     }
   },
   mounted () {
@@ -200,29 +257,47 @@ export default {
       'setApodDate'
     ]),
     async onChangeDate () {
-      this.disabled = true
+      this.disabledDatePicker = true
       await this.getApod(this.selectedApodDate)
-      this.disabled = false
+      this.disabledDatePicker = false
+      this.onCloseModal()
     },
     onClickNext () {
-      const nextDate = moment(this.datePickerDate, 'YYYY-MM-DD').hour(23)
-        .add(1, 'days')
+      const nextDate = moment(this.datePickerDate, 'YYYY-MM-DD')
+        .add(24, 'hours')
         .toISOString()
         .substr(0, 10)
       this.datePickerDate = nextDate
       this.onChangeDate()
     },
     onClickPrev () {
-      const prevDate = moment(this.datePickerDate, 'YYYY-MM-DD').hour(23)
-        .subtract(1, 'days')
+      const prevDate = moment(this.datePickerDate, 'YYYY-MM-DD')
+        .subtract(24, 'hours')
         .toISOString()
         .substr(0, 10)
       this.datePickerDate = prevDate
       this.onChangeDate()
     },
+    onClickShowDatepicker () {
+      this.showMobileDatePicker = true
+    },
     onClickToday () {
       this.datePickerDate = this.today
       this.onChangeDate()
+    },
+    onCloseModal () {
+      this.showMobileDatePicker = false
+    },
+    hideOverlay () {
+      this.isOverlayShown = false
+      this.isfullImageVisible = false
+    },
+    showOverlay () {
+      this.isOverlayShown = true
+    },
+    showOverlayImage () {
+      this.isfullImageVisible = true
+      this.showOverlay()
     }
   }
 }

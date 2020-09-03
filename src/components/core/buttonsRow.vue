@@ -2,14 +2,13 @@
   <v-col cols="12">
     <v-row no-gutters>
       <v-col
-        v-for="(button, index) in buttons"
+        v-for="(button, index) in filteredButtons"
         :key="index"
         :cols="button.size"
         align="center"
         class="ma-2"
       >
         <v-btn
-          v-if="button.condition"
           :color="button.color || 'secondary'"
           :fab="mobile"
           :depressed="mobile"
@@ -38,6 +37,15 @@ export default {
     },
     mobile: {
       type: Boolean
+    }
+  },
+  computed: {
+    filteredButtons () {
+      return this.buttons.filter(
+        function (button) {
+          return button.condition
+        }
+      )
     }
   },
   methods: {
