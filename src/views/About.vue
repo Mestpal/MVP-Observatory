@@ -83,21 +83,11 @@
           </p>
 
           <p>
-            Agencies API in use:
-            <br>
+            Agencies API in use: <br>
             <a
               href="https://api.nasa.gov/"
               target="_blank"
-            >
-              NASA API Website
-            </a>
-            <br>
-            <a
-              href="https://epic.gsfc.nasa.gov/about/api"
-              target="_blank"
-            >
-              NASA EPIC API Website
-            </a>
+            > NASA API Website</a>
           </p>
 
           <p>

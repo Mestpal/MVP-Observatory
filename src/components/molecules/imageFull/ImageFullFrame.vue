@@ -62,10 +62,13 @@
 </template>
 
 <script>
+import imageFullFrameModal from '@/components/molecules/imageFull/imageFullFrameModal'
+import overlayInfo from '@/components/core/overlayInfo'
+
 export default {
   components: {
-    imageFullFrameModal: () => import("@/components/molecules/imageFull/imageFullFrameModal"),
-    overlayInfo: () => import("@/components/core/overlayInfo")
+    imageFullFrameModal,
+    overlayInfo
   },
   props: {
     copyright: {

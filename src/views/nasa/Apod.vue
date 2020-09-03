@@ -60,8 +60,6 @@
             :description="apodData.explanation"
             :src="apodSrc"
             :title="apodData.title"
-            @fullframe="showOverlayImage"
-            @overlay="showOverlay"
           />
           <video-component
             v-else
@@ -71,38 +69,6 @@
             :src="apodSrc"
             :title="apodData.title"
           />
-
-          <v-row
-            align="end"
-            no-gutters
-          >
-            <overlay-info-mobile
-              :copyright="copyright"
-              :show="isOverlayShown"
-              :title="apodData.title"
-              @close="hideOverlay"
-            >
-              <template #content>
-                <v-col v-if="apodData.explanation && !isfullImageVisible">
-                  <v-card-text
-                    :class="{textHeight: isLandscape}"
-                    class="darken-4 scrollable text-justify"
-                    v-text="apodData.explanation"
-                  />
-                </v-col>
-                <v-col
-                  v-else
-                  class="ml-4"
-                >
-                  <v-img
-                    contain
-                    :src="apodSrc"
-                    :width="previewWitdhMobile"
-                  />
-                </v-col>
-              </template>
-            </overlay-info-mobile>
-          </v-row>
         </v-col>
       </v-col>
 
@@ -166,27 +132,27 @@ import { mapGetters, mapActions } from 'vuex'
 import isEmpty from 'lodash/isEmpty'
 import moment from 'moment'
 
-import commons from '@/mixins/commons'
 import buttonsRow from '@/components/core/buttonsRow'
+import imageFullFrame from '@/components/molecules/imageFull/ImageFullFrame'
+import imageFullFrameMobile from '@/components/molecules/imageFull/ImageFullFrameMobile'
+import overlayInfoMobile from "@/components/core/overlayInfoMobile"
 import sectionInfoBlock from '@/components/core/sectionInfoBlock'
+import videoComponent from '@/components/molecules/video/videoPlayer'
 
 export default {
   name: 'Home',
   components: {
-    imageFullFrame: () => import("@/components/molecules/imageFull/ImageFullFrame"),
-    imageFullFrameMobile: () => import("@/components/molecules/imageFull/ImageFullFrameMobile"),
-    overlayInfoMobile: () => import("@/components/core/overlayInfoMobile"),
-    videoComponent: () => import("@/components/molecules/video/videoPlayer"),
     buttonsRow,
-    sectionInfoBlock
+    imageFullFrame,
+    imageFullFrameMobile,
+    overlayInfoMobile,
+    sectionInfoBlock,
+    videoComponent
   },
-  mixins: [commons],
   data () {
     return {
       apodTitle: "NASA Image of the Day",
       disabledDatePicker: false,
-      isfullImageVisible: false,
-      isOverlayShown: false,
       minDateAPOD: "2015-01-01",
       showMobileDatePicker: false
     }
@@ -194,6 +160,7 @@ export default {
   computed: {
     ...mapGetters([
       'apodData',
+      'isMobileBrowser',
       'selectedApodDate'
     ]),
     apodSrc () {
@@ -229,6 +196,9 @@ export default {
         }
       ]
     },
+    checkMobileNavigation () {
+      return this.isMobileBrowser || this.$vuetify.breakpoint.smAndDown
+    },
     copyright () {
       return this.apodData.copyright || null
     },
@@ -243,8 +213,14 @@ export default {
     landscapeColsSize () {
       return this.isLandscape ? 6 : 12
     },
+    isLandscape () {
+      return this.checkMobileNavigation && this.$vuetify.breakpoint.smAndUp
+    },
     isVideo () {
       return this.apodData.media_type === 'video'
+    },
+    today () {
+      return moment().toISOString().substr(0, 10)
     }
   },
   mounted () {
@@ -263,16 +239,16 @@ export default {
       this.onCloseModal()
     },
     onClickNext () {
-      const nextDate = moment(this.datePickerDate, 'YYYY-MM-DD')
-        .add(24, 'hours')
+      const nextDate = moment(this.datePickerDate, 'YYYY-MM-DD').hour(23)
+        .add(1, 'days')
         .toISOString()
         .substr(0, 10)
       this.datePickerDate = nextDate
       this.onChangeDate()
     },
     onClickPrev () {
-      const prevDate = moment(this.datePickerDate, 'YYYY-MM-DD')
-        .subtract(24, 'hours')
+      const prevDate = moment(this.datePickerDate, 'YYYY-MM-DD').hour(23)
+        .subtract(1, 'days')
         .toISOString()
         .substr(0, 10)
       this.datePickerDate = prevDate
@@ -287,17 +263,6 @@ export default {
     },
     onCloseModal () {
       this.showMobileDatePicker = false
-    },
-    hideOverlay () {
-      this.isOverlayShown = false
-      this.isfullImageVisible = false
-    },
-    showOverlay () {
-      this.isOverlayShown = true
-    },
-    showOverlayImage () {
-      this.isfullImageVisible = true
-      this.showOverlay()
     }
   }
 }

@@ -21,7 +21,6 @@ Vue.use(VueRouter)
     children: [
       { path: '', component: () => import('@/views/nasa/Index.vue') },
       { path: 'apod', component: () => import('@/views/nasa/Apod.vue') },
-      { path: 'epic', component: () => import('@/views/nasa/Epic.vue') },
     ]
   }
 ]
