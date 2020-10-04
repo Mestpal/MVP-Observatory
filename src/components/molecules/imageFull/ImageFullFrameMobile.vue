@@ -13,8 +13,8 @@
 
       <v-img
         :src="src"
-        :height="isLandscape ? '100vh' : '70vh'"
-        width="100vw"
+        :height="isLandscape ? '75vh' : 'auto'"
+        max-width="100vw"
         @load="showMenuButton"
       >
         <template #placeholder>
