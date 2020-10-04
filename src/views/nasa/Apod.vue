@@ -25,11 +25,10 @@
         :cols="landscapeColsSize"
       >
         <v-col
-          v-if="!checkMobileNavigation"
           class="pa-0"
         >
           <image-full-frame
-            v-if="!isVideo"
+            v-if="!checkMobileNavigation && !isVideo"
             :copyright="copyright"
             :description="apodData.explanation"
             :src="apodSrc"
@@ -37,21 +36,8 @@
             class="justify-center"
             height="65vh"
           />
-          <video-component
-            v-else
-            :copyright="copyright"
-            :description="apodData.explanation"
-            :src="apodSrc"
-            :title="apodData.title"
-          />
-        </v-col>
-
-        <v-col
-          v-else
-          class="ma-0 pa-0"
-        >
           <image-full-frame-mobile
-            v-if="!isVideo"
+            v-if="checkMobileNavigation && !isVideo"
             :copyright="copyright"
             :description="apodData.explanation"
             :src="apodSrc"
@@ -60,14 +46,13 @@
             @overlay="showOverlay"
           />
           <video-component
-            v-else
+            v-if="isVideo"
             :copyright="copyright"
             :description="apodData.explanation"
             :mobile="checkMobileNavigation"
             :src="apodSrc"
             :title="apodData.title"
           />
-
           <v-row
             align="end"
             no-gutters
@@ -259,8 +244,9 @@ export default {
       this.onCloseModal()
     },
     onClickNext () {
-      const nextDate = moment(this.datePickerDate, 'YYYY-MM-DD')
-        .add(24, 'hours')
+      const date = moment(this.datePickerDate, 'YYYY-MM-DD')
+      let nextDate = date.clone()
+      nextDate = nextDate.add(2, 'd')
         .toISOString()
         .substr(0, 10)
       this.datePickerDate = nextDate
@@ -268,7 +254,7 @@ export default {
     },
     onClickPrev () {
       const prevDate = moment(this.datePickerDate, 'YYYY-MM-DD')
-        .subtract(24, 'hours')
+        .subtract(12, 'hours')
         .toISOString()
         .substr(0, 10)
       this.datePickerDate = prevDate
