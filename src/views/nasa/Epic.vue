@@ -15,9 +15,10 @@
       </template>
     </section-info-block>
     <v-row no-gutters>
-      <v-col>
+      <v-col cols="6">
         <v-carousel
           :hide-delimiters="true"
+          height="auto"
           @change="setActualSlide"
         >
           <v-carousel-item
@@ -80,7 +81,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import isEmpty from 'lodash/isEmpty'
 
 import commons from '@/mixins/commons'
 import sectionInfoBlock from '@/components/core/sectionInfoBlock'
@@ -100,35 +100,38 @@ export default {
       epicTitle: "EPIC: Earth captures of astronomical events",
       datePickerDate: null,
       isfullImageVisible: false,
-      isOverlayShown: false
+      isOverlayShown: false,
+      maxDate: null
     }
   },
   computed: {
     ...mapGetters([
       'epicData',
-      'isMobileBrowser',
-      'selectedEpicDate'
+      'epicAvailableDates'
     ]),
     imageBaseUrl () {
       return process.env.VUE_APP_NASA_EPIC_ARCHIVE_BASE_URL
     },
-    maxDate(){
-      return this.moment()
-        .subtract(24, 'hours')
-        .toISOString()
-        .substr(0, 10)
-    },
     selectedDateArray () {
-      return this.maxDate.split("-")
+      if(this.maxDate) return this.maxDate.split("-")
+      return this.moment().toISOString().substr(0, 10)
+    }
+  },
+  watch: {
+    epicAvailableDates(newDates){
+      this.maxDate = newDates[0].date
     }
   },
   mounted () {
-    if (!this.datePickerDate) this.datePickerDate = this.maxDate
-    if(isEmpty(this.apodData)) this.getEpic()
+    this.getEpicDates()
+      .then(() => {
+        this.getEpic(this.maxDate)
+      })
   },
   methods: {
     ...mapActions([
       'getEpic',
+      'getEpicDates',
       'setApodDate'
     ]),
     getUrlImage(image) {
