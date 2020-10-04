@@ -17,15 +17,15 @@ export default new Vuex.Store({
     apod: {},
     darkTheme: true,
     dateApod: null,
-    dateEpic: null,
-    epic: null
+    epic: null,
+    epicAvailableDates: null
   },
   getters: {
     apodData: (state) => (state.apod),
     epicData: (state) => (state.epic),
+    epicAvailableDates: (state) => (state.epicAvailableDates),
     isDarkTheme: (state) => (state.darkTheme),
     selectedApodDate: (state) => (state.dateApod),
-    selectedEpicDate: (state) => (state.dateEpic)
   },
   mutations: {
     updateApodData (state, data) {
@@ -33,6 +33,9 @@ export default new Vuex.Store({
     },
     updateEpicData (state, data) {
       state.epic = data
+    },
+    updateEpicAvailableDates (state, data) {
+      state.epicAvailableDates = data
     },
     updateTheme (state) {
       state.darkTheme = !state.darkTheme
@@ -57,14 +60,14 @@ export default new Vuex.Store({
       commit('updateApodData', apod.data)
     },
     async getEpic ({ commit }, date) {
-      if (date) {
-        params.date = date
-      }
-
-      const epic = await axios.get(`${process.env.VUE_APP_NASA_EPIC_BASE_URL}natural`, {
+      const epic = await axios.get(`${process.env.VUE_APP_NASA_EPIC_BASE_URL}natural/date/${date}`, {
         params: params
       })
       commit('updateEpicData', epic.data)
+    },
+    async getEpicDates ({commit}){
+      const epic = await axios.get(`${process.env.VUE_APP_NASA_EPIC_BASE_URL}natural/all`)
+      commit('updateEpicAvailableDates', epic.data)
     },
     setApodDate ({ commit }, date) {
       commit('updateDateApod', date)
