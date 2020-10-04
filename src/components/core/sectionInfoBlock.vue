@@ -1,5 +1,8 @@
 <template>
-  <v-row no-gutters>
+  <v-row
+    no-gutters
+    class="my-2"
+  >
     <v-col
       v-if="media && inverse"
       cols="12"

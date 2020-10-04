@@ -3,46 +3,58 @@
     <section-info-block>
       <template #title>
         <h1
-          v-if="checkMobileNavigation"
-          class="text-center"
-          v-text="epicTitle"
-        />
-        <h2
-          v-else
           class="text-center"
           v-text="epicTitle"
         />
       </template>
     </section-info-block>
     <v-row no-gutters>
-      <v-col cols="6">
-        <v-carousel
-          :hide-delimiters="true"
-          height="auto"
-          @change="setActualSlide"
+      <v-row>
+        <v-col
+          cols="6"
+          class="pa-0"
         >
-          <v-carousel-item
-            v-for="(epic, index) in epicData"
-            :key="index"
+          <v-carousel
+            :hide-delimiters="true"
+            height="auto"
+            @change="setActualSlide"
           >
-            <image-full-frame
-              v-if="!checkMobileNavigation"
-              :copyright="epic.caption"
-              :description="epic.caption"
-              :src="getUrlImage(epic.image)"
-              :title="epic.date"
-            />
-            <image-full-frame-mobile
-              v-else
-              :copyright="epic.caption"
-              :description="epic.caption"
-              :src="getUrlImage(epic.image)"
-              :title="epic.date"
-              @fullframe="showOverlayImage"
-              @overlay="showOverlay"
-            />
-          </v-carousel-item>
-        </v-carousel>
+            <v-carousel-item
+              v-for="(epic, index) in epicData"
+              :key="index"
+            >
+              <image-full-frame
+                v-if="!checkMobileNavigation"
+                :copyright="epic.caption"
+                :description="epic.caption"
+                :src="getUrlImage(epic.image)"
+                :title="epic.date"
+              />
+              <image-full-frame-mobile
+                v-else
+                :copyright="epic.caption"
+                :description="epic.caption"
+                :src="getUrlImage(epic.image)"
+                :title="epic.date"
+                @fullframe="showOverlayImage"
+                @overlay="showOverlay"
+              />
+            </v-carousel-item>
+          </v-carousel>
+        </v-col>
+        <v-col cols="6">
+          <v-simple-table>
+            <tbody>
+              <tr
+                v-for="(item, index) in actualSlide"
+                :key="index"
+              >
+                <td>{{ index }}</td>
+                <td>{{ item }}</td>
+              </tr>
+            </tbody>
+          </v-simple-table>
+        </v-col>
         <v-row
           v-if="actualSlide"
           align="end"
@@ -74,7 +86,7 @@
             </template>
           </overlay-info-mobile>
         </v-row>
-      </v-col>
+      </v-row>
     </v-row>
   </v-col>
 </template>

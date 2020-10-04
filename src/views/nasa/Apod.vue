@@ -1,14 +1,8 @@
 <template>
-  <v-col>
+  <v-col class="pa-0">
     <section-info-block :media="isLandscape">
       <template #title>
         <h1
-          v-if="checkMobileNavigation"
-          class="text-center"
-          v-text="apodTitle"
-        />
-        <h2
-          v-else
           class="text-center"
           v-text="apodTitle"
         />
