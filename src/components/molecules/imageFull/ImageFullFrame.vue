@@ -4,6 +4,8 @@
     class="ma-0 pa-0"
   >
     <v-card
+      color="transparent"
+      flat
       @mousemove="onHover"
       @mouseleave="onLeaveHover"
     >
@@ -13,15 +15,16 @@
 
       <v-img
         :src="src"
-        max-height="75vh"
-        max-width="100vw"
+        :height="$attrs['height'] || 'auto'"
+        max-width="100%"
+        v-bind="$attrs"
       >
         <template #placeholder>
           <v-row no-gutters>
             <v-skeleton-loader
               type="image"
               height="80vh"
-              min-width="100vw"
+              max-width="100%"
             />
           </v-row>
         </template>
@@ -62,13 +65,10 @@
 </template>
 
 <script>
-import imageFullFrameModal from '@/components/molecules/imageFull/imageFullFrameModal'
-import overlayInfo from '@/components/core/overlayInfo'
-
 export default {
   components: {
-    imageFullFrameModal,
-    overlayInfo
+    imageFullFrameModal: () => import("@/components/molecules/imageFull/imageFullFrameModal"),
+    overlayInfo: () => import("@/components/core/overlayInfo")
   },
   props: {
     copyright: {

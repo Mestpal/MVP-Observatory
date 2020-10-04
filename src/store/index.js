@@ -1,5 +1,4 @@
 import axios from 'axios'
-import isMobile from 'is-mobile'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
@@ -11,21 +10,32 @@ const vuexLocal = new VuexPersistence({
   storage: window.localStorage
 })
 
+let params = {}
+
 export default new Vuex.Store({
   state: {
     apod: {},
     darkTheme: true,
     dateApod: null,
+    epic: null,
+    epicAvailableDates: null
   },
   getters: {
     apodData: (state) => (state.apod),
+    epicData: (state) => (state.epic),
+    epicAvailableDates: (state) => (state.epicAvailableDates),
     isDarkTheme: (state) => (state.darkTheme),
-    isMobileBrowser: () => (isMobile()),
-    selectedApodDate: (state) => (state.dateApod)
+    selectedApodDate: (state) => (state.dateApod),
   },
   mutations: {
-    updateApod (state, date) {
-      state.apod = date
+    updateApodData (state, data) {
+      state.apod = data
+    },
+    updateEpicData (state, data) {
+      state.epic = data
+    },
+    updateEpicAvailableDates (state, data) {
+      state.epicAvailableDates = data
     },
     updateTheme (state) {
       state.darkTheme = !state.darkTheme
@@ -36,7 +46,7 @@ export default new Vuex.Store({
   },
   actions: {
     async getApod ({ commit }, date) {
-      const params = {
+      params = {
         api_key: process.env.VUE_APP_NASA_APIKEY,
       }
 
@@ -47,7 +57,17 @@ export default new Vuex.Store({
       const apod = await axios.get(`${process.env.VUE_APP_NASA_API_BASE_URL}planetary/apod`, {
         params: params
       })
-      commit('updateApod', apod.data)
+      commit('updateApodData', apod.data)
+    },
+    async getEpic ({ commit }, date) {
+      const epic = await axios.get(`${process.env.VUE_APP_NASA_EPIC_BASE_URL}natural/date/${date}`, {
+        params: params
+      })
+      commit('updateEpicData', epic.data)
+    },
+    async getEpicDates ({commit}){
+      const epic = await axios.get(`${process.env.VUE_APP_NASA_EPIC_BASE_URL}natural/all`)
+      commit('updateEpicAvailableDates', epic.data)
     },
     setApodDate ({ commit }, date) {
       commit('updateDateApod', date)
