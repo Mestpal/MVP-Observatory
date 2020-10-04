@@ -1,14 +1,8 @@
 <template>
-  <v-col>
+  <v-col class="pa-0">
     <section-info-block :media="isLandscape">
       <template #title>
         <h1
-          v-if="checkMobileNavigation"
-          class="text-center"
-          v-text="apodTitle"
-        />
-        <h2
-          v-else
           class="text-center"
           v-text="apodTitle"
         />
@@ -32,7 +26,7 @@
       >
         <v-col
           v-if="!checkMobileNavigation"
-          class="ma-0 pa-0"
+          class="pa-0"
         >
           <image-full-frame
             v-if="!isVideo"
@@ -40,6 +34,8 @@
             :description="apodData.explanation"
             :src="apodSrc"
             :title="apodData.title"
+            class="justify-center"
+            height="65vh"
           />
           <video-component
             v-else
