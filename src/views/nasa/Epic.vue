@@ -8,84 +8,85 @@
         />
       </template>
     </section-info-block>
-    <v-row no-gutters>
-      <v-row>
-        <v-col
-          cols="6"
-          class="pa-0"
+    <v-row>
+      <v-col
+        cols="6"
+        class="pa-0"
+      >
+        <v-carousel
+          :hide-delimiters="true"
+          height="auto"
+          @change="setActualSlide"
         >
-          <v-carousel
-            :hide-delimiters="true"
-            height="auto"
-            @change="setActualSlide"
+          <v-carousel-item
+            v-for="(epic, index) in epicData"
+            :key="index"
           >
-            <v-carousel-item
-              v-for="(epic, index) in epicData"
+            <image-full-frame
+              v-if="!checkMobileNavigation"
+              :copyright="epic.caption"
+              :description="epic.caption"
+              :src="getUrlImage(epic.image)"
+              :title="epic.date"
+            />
+            <image-full-frame-mobile
+              v-else
+              :copyright="epic.caption"
+              :description="epic.caption"
+              :src="getUrlImage(epic.image)"
+              :title="epic.date"
+              @fullframe="showOverlayImage"
+              @overlay="showOverlay"
+            />
+          </v-carousel-item>
+        </v-carousel>
+      </v-col>
+      <v-col
+        cols="6"
+        class="pa-0"
+      >
+        <v-simple-table>
+          <tbody>
+            <tr
+              v-for="(item, index) in actualSlide"
               :key="index"
             >
-              <image-full-frame
-                v-if="!checkMobileNavigation"
-                :copyright="epic.caption"
-                :description="epic.caption"
-                :src="getUrlImage(epic.image)"
-                :title="epic.date"
-              />
-              <image-full-frame-mobile
-                v-else
-                :copyright="epic.caption"
-                :description="epic.caption"
-                :src="getUrlImage(epic.image)"
-                :title="epic.date"
-                @fullframe="showOverlayImage"
-                @overlay="showOverlay"
-              />
-            </v-carousel-item>
-          </v-carousel>
-        </v-col>
-        <v-col cols="6">
-          <v-simple-table>
-            <tbody>
-              <tr
-                v-for="(item, index) in actualSlide"
-                :key="index"
-              >
-                <td>{{ index }}</td>
-                <td>{{ item }}</td>
-              </tr>
-            </tbody>
-          </v-simple-table>
-        </v-col>
-        <v-row
-          v-if="actualSlide"
-          align="end"
-          no-gutters
+              <td>{{ index }}</td>
+              <td>{{ item }}</td>
+            </tr>
+          </tbody>
+        </v-simple-table>
+      </v-col>
+      <v-row
+        v-if="actualSlide"
+        align="end"
+        no-gutters
+      >
+        <overlay-info-mobile
+          :show="isOverlayShown"
+          :title="actualSlide.date"
+          @close="hideOverlay"
         >
-          <overlay-info-mobile
-            :show="isOverlayShown"
-            :title="actualSlide.date"
-            @close="hideOverlay"
-          >
-            <template #content>
-              <v-col v-if="actualSlide.caption && !isfullImageVisible">
-                <v-card-text
-                  :class="{textHeight: isLandscape}"
-                  class="darken-4 scrollable text-justify"
-                  v-text="actualSlide.caption"
-                />
-              </v-col>
-              <v-col
-                v-else
-                class="ml-4"
-              >
-                <v-img
-                  contain
-                  :src="getUrlImage(actualSlide.image)"
-                  :width="previewWitdhMobile"
-                />
-              </v-col>
-            </template>
-          </overlay-info-mobile>
-        </v-row>
+          <template #content>
+            <v-col v-if="actualSlide.caption && !isfullImageVisible">
+              <v-card-text
+                :class="{textHeight: isLandscape}"
+                class="darken-4 scrollable text-justify"
+                v-text="actualSlide.caption"
+              />
+            </v-col>
+            <v-col
+              v-else
+              class="ml-4"
+            >
+              <v-img
+                contain
+                :src="getUrlImage(actualSlide.image)"
+                :width="previewWitdhMobile"
+              />
+            </v-col>
+          </template>
+        </overlay-info-mobile>
       </v-row>
     </v-row>
   </v-col>
