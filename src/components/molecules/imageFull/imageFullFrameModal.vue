@@ -8,19 +8,14 @@
       {{ title }}
     </template>
     <template #content>
-      <v-row
-        justify="center"
-        align="center"
-      >
-        <v-spacer />
-        <v-col cols="10">
-          <v-img
-            contain
-            :src="src"
-          />
-        </v-col>
-        <v-spacer />
-      </v-row>
+      <v-col class="align-center d-flex justify-center">
+        <v-img
+          contain
+          max-width="70%"
+          height="auto"
+          :src="src"
+        />
+      </v-col>
     </template>
     <template #actions>
       <v-spacer />
