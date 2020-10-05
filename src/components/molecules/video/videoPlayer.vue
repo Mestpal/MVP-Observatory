@@ -5,7 +5,10 @@
         <h2 v-text="playerTitle" />
       </v-card-title>
 
-      <v-row no-gutters>
+      <v-row
+        :key="updateKey"
+        no-gutters
+      >
         <v-col :cols="videoColSize">
           <vue-plyr>
             <div class="plyr__video-embed">
@@ -114,7 +117,8 @@ export default {
   },
   data() {
     return {
-      isOverlayShown: false
+      isOverlayShown: false,
+      updateKey: 0
     }
   },
   computed: {
@@ -142,6 +146,12 @@ export default {
       return  this.mobile ? 12 : 1
     }
   },
+  watch: {
+    src(newSrc, oldSrc){
+      console.log('watch')
+      if (newSrc !== oldSrc) this.updateLoadVideoKey()
+    }
+  },
   methods: {
     onClose () {
       this.isOverlayShown = false
@@ -151,6 +161,9 @@ export default {
     },
     onOpen () {
       window.open(this.src, '_blank');
+    },
+    updateLoadVideoKey () {
+      this.updateKey += 1
     }
   }
 }

@@ -12,7 +12,7 @@
       </v-card-title>
 
       <v-img
-        :key="updataeKey"
+        :key="updateKey"
         :src="src"
         :height="isLandscape ? '75vh' : 'auto'"
         max-width="100vw"
@@ -126,7 +126,7 @@ export default {
       isMenuButtonVisible: false,
       isOverlayShown: false,
       noDataMessage: 'No data',
-      updataeKey: 0
+      updateKey: 0
     }
   },
   computed: {
@@ -172,7 +172,7 @@ export default {
       this.isMenuButtonVisible = true
     },
     updateLoadImageKey () {
-      this.updataeKey += 1
+      this.updateKey += 1
     }
   }
 }
