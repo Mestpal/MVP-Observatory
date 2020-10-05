@@ -25,10 +25,11 @@
         :cols="landscapeColsSize"
       >
         <v-col
+          v-if="!isVideo"
           class="pa-0"
         >
           <image-full-frame
-            v-if="!checkMobileNavigation && !isVideo"
+            v-if="!checkMobileNavigation"
             :copyright="copyright"
             :description="apodData.explanation"
             :src="apodSrc"
@@ -37,53 +38,21 @@
             height="65vh"
           />
           <image-full-frame-mobile
-            v-if="checkMobileNavigation && !isVideo"
+            v-else
             :copyright="copyright"
             :description="apodData.explanation"
             :src="apodSrc"
             :title="apodData.title"
-            @fullframe="showOverlayImage"
-            @overlay="showOverlay"
           />
+        </v-col>
+        <v-col v-else>
           <video-component
-            v-if="isVideo"
             :copyright="copyright"
             :description="apodData.explanation"
             :mobile="checkMobileNavigation"
             :src="apodSrc"
             :title="apodData.title"
           />
-          <v-row
-            align="end"
-            no-gutters
-          >
-            <overlay-info-mobile
-              :copyright="copyright"
-              :show="isOverlayShown"
-              :title="apodData.title"
-              @close="hideOverlay"
-            >
-              <template #content>
-                <v-col v-if="apodData.explanation && !isfullImageVisible">
-                  <v-card-text
-                    :class="{textHeight: isLandscape}"
-                    class="darken-4 scrollable text-justify"
-                    v-text="apodData.explanation"
-                  />
-                </v-col>
-                <v-col
-                  v-else
-                  class="ml-4"
-                >
-                  <v-img
-                    contain
-                    :src="apodSrc"
-                    :width="previewWitdhMobile"
-                  />
-                </v-col>
-              </template>
-            </overlay-info-mobile>
-          </v-row>
         </v-col>
       </v-col>
 
@@ -167,7 +136,6 @@ export default {
       apodTitle: "NASA Image of the Day",
       disabledDatePicker: false,
       isfullImageVisible: false,
-      isOverlayShown: false,
       minDateAPOD: "2015-01-01",
       showMobileDatePicker: false
     }
@@ -269,17 +237,6 @@ export default {
     },
     onCloseModal () {
       this.showMobileDatePicker = false
-    },
-    hideOverlay () {
-      this.isOverlayShown = false
-      this.isfullImageVisible = false
-    },
-    showOverlay () {
-      this.isOverlayShown = true
-    },
-    showOverlayImage () {
-      this.isfullImageVisible = true
-      this.showOverlay()
     }
   }
 }
