@@ -10,7 +10,7 @@
     </section-info-block>
     <v-row>
       <v-col
-        cols="6"
+        :cols="landscapeColsSize"
         class="pa-0"
       >
         <v-carousel
@@ -42,7 +42,7 @@
         </v-carousel>
       </v-col>
       <v-col
-        cols="6"
+        :cols="landscapeColsSize"
         class="pa-0"
       >
         <v-simple-table>
@@ -52,7 +52,23 @@
               :key="index"
             >
               <td>{{ index }}</td>
-              <td>{{ item }}</td>
+              <td v-if="typeof item !== 'object'">
+                {{ item }}
+              </td>
+              <td v-else>
+                <v-row
+                  v-for="(value, key) in item"
+                  :key="key"
+                  no-gutters
+                >
+                  <v-col>
+                    <td>{{ key }}</td>
+                  </v-col>
+                  <v-col>
+                    <td>{{ value }}</td>
+                  </v-col>
+                </v-row>
+              </td>
             </tr>
           </tbody>
         </v-simple-table>
@@ -92,6 +108,9 @@ export default {
     ]),
     imageBaseUrl () {
       return process.env.VUE_APP_NASA_EPIC_ARCHIVE_BASE_URL
+    },
+    landscapeColsSize () {
+      return this.isLandscape ? 12 : 6
     },
     selectedDateArray () {
       if(this.maxDate) return this.maxDate.split("-")
