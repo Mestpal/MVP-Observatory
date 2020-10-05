@@ -57,37 +57,6 @@
           </tbody>
         </v-simple-table>
       </v-col>
-      <v-row
-        v-if="actualSlide"
-        align="end"
-        no-gutters
-      >
-        <overlay-info-mobile
-          :show="isOverlayShown"
-          :title="actualSlide.date"
-          @close="hideOverlay"
-        >
-          <template #content>
-            <v-col v-if="actualSlide.caption && !isfullImageVisible">
-              <v-card-text
-                :class="{textHeight: isLandscape}"
-                class="darken-4 scrollable text-justify"
-                v-text="actualSlide.caption"
-              />
-            </v-col>
-            <v-col
-              v-else
-              class="ml-4"
-            >
-              <v-img
-                contain
-                :src="getUrlImage(actualSlide.image)"
-                :width="previewWitdhMobile"
-              />
-            </v-col>
-          </template>
-        </overlay-info-mobile>
-      </v-row>
     </v-row>
   </v-col>
 </template>
@@ -103,7 +72,6 @@ export default {
   components: {
     imageFullFrame: () => import('@/components/molecules/imageFull/ImageFullFrame'),
     imageFullFrameMobile: () => import('@/components/molecules/imageFull/ImageFullFrameMobile'),
-    overlayInfoMobile: () => import("@/components/core/overlayInfoMobile"),
     sectionInfoBlock
   },
   mixins: [commons],
