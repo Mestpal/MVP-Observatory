@@ -68,11 +68,48 @@
         </v-speed-dial>
       </v-row>
     </v-card>
+    <v-row
+      align="end"
+      no-gutters
+    >
+      <overlay-info-mobile
+        :show="isOverlayShown"
+        v-bind="$attrs"
+        @close="hideOverlay"
+      >
+        <template #content>
+          <v-col v-if="!isfullImageVisible">
+            <v-card-text
+              :class="{textHeight: isLandscape}"
+              class="darken-4 scrollable text-justify"
+              v-text="$attrs.description || noDataMessage"
+            />
+          </v-col>
+          <v-col
+            v-else
+            class="ml-4"
+          >
+            <v-img
+              :src="src"
+              :width="previewWitdhMobile"
+              alt="Full Image"
+              contain
+            />
+          </v-col>
+        </template>
+      </overlay-info-mobile>
+    </v-row>
   </v-col>
 </template>
 
 <script>
+import commons from '@/mixins/commons'
+
 export default {
+  components:{
+    overlayInfoMobile: () => import("@/components/core/overlayInfoMobile")
+  },
+  mixins: [commons],
   props: {
     playerTitle: {
       type: String,
@@ -86,7 +123,10 @@ export default {
   data() {
     return {
       fabStatus: false,
+      isfullImageVisible: false,
       isMenuButtonVisible: false,
+      isOverlayShown: false,
+      noDataMessage: 'No data'
     }
   },
   computed: {
@@ -116,11 +156,16 @@ export default {
     }
   },
   methods: {
+    hideOverlay () {
+      this.isOverlayShown = false
+      this.isfullImageVisible = false
+    },
     onClick () {
-      this.$emit('overlay')
+      this.isOverlayShown = true
     },
     onClickFullscreen () {
-      this.$emit('fullframe')
+      this.isfullImageVisible = true
+      this.onClick()
     },
     showMenuButton () {
       this.isMenuButtonVisible = true
