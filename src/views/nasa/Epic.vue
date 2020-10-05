@@ -10,7 +10,7 @@
     </section-info-block>
     <v-row>
       <v-col
-        cols="6"
+        :cols="landscapeColsSize"
         class="pa-0"
       >
         <v-carousel
@@ -42,7 +42,7 @@
         </v-carousel>
       </v-col>
       <v-col
-        cols="6"
+        :cols="landscapeColsSize"
         class="pa-0"
       >
         <v-simple-table>
@@ -52,42 +52,27 @@
               :key="index"
             >
               <td>{{ index }}</td>
-              <td>{{ item }}</td>
+              <td v-if="typeof item !== 'object'">
+                {{ item }}
+              </td>
+              <td v-else>
+                <v-row
+                  v-for="(value, key) in item"
+                  :key="key"
+                  no-gutters
+                >
+                  <v-col>
+                    <td>{{ key }}</td>
+                  </v-col>
+                  <v-col>
+                    <td>{{ value }}</td>
+                  </v-col>
+                </v-row>
+              </td>
             </tr>
           </tbody>
         </v-simple-table>
       </v-col>
-      <v-row
-        v-if="actualSlide"
-        align="end"
-        no-gutters
-      >
-        <overlay-info-mobile
-          :show="isOverlayShown"
-          :title="actualSlide.date"
-          @close="hideOverlay"
-        >
-          <template #content>
-            <v-col v-if="actualSlide.caption && !isfullImageVisible">
-              <v-card-text
-                :class="{textHeight: isLandscape}"
-                class="darken-4 scrollable text-justify"
-                v-text="actualSlide.caption"
-              />
-            </v-col>
-            <v-col
-              v-else
-              class="ml-4"
-            >
-              <v-img
-                contain
-                :src="getUrlImage(actualSlide.image)"
-                :width="previewWitdhMobile"
-              />
-            </v-col>
-          </template>
-        </overlay-info-mobile>
-      </v-row>
     </v-row>
   </v-col>
 </template>
@@ -103,7 +88,6 @@ export default {
   components: {
     imageFullFrame: () => import('@/components/molecules/imageFull/ImageFullFrame'),
     imageFullFrameMobile: () => import('@/components/molecules/imageFull/ImageFullFrameMobile'),
-    overlayInfoMobile: () => import("@/components/core/overlayInfoMobile"),
     sectionInfoBlock
   },
   mixins: [commons],
@@ -124,6 +108,9 @@ export default {
     ]),
     imageBaseUrl () {
       return process.env.VUE_APP_NASA_EPIC_ARCHIVE_BASE_URL
+    },
+    landscapeColsSize () {
+      return this.isLandscape ? 12 : 6
     },
     selectedDateArray () {
       if(this.maxDate) return this.maxDate.split("-")
