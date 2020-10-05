@@ -13,20 +13,21 @@
         <h2 v-text="playerTitle" />
       </v-card-title>
 
-      <v-skeleton-loader
-        v-if="isLoadingImage"
-        :height="$attrs['height'] || 'auto'"
-        type="image"
-        max-width="100%"
-      />
       <v-img
-        v-show="!isLoadingImage"
+        :key="updataeKey"
         :src="src"
         :height="$attrs['height'] || 'auto'"
         max-width="100%"
         v-bind="$attrs"
-        @load="updateLoadImageStatus"
-      />
+      >
+        <template #placeholder>
+          <v-skeleton-loader
+            :height="$attrs['height'] || 'auto'"
+            type="image"
+            max-width="100%"
+          />
+        </template>
+      </v-img>
 
       <v-row
         align="end"
@@ -95,7 +96,7 @@ export default {
       isHover: false,
       isHoverOut: true,
       isModalOpen: false,
-      isLoadingImage: true
+      updataeKey: 0
     }
   },
   computed: {
@@ -105,7 +106,7 @@ export default {
   },
   watch: {
     src(newSrc, oldSrc){
-      if(newSrc !== oldSrc) this.updateLoadImageStatus()
+      if(newSrc !== oldSrc) this.updateLoadImageKey()
     }
   },
   methods: {
@@ -127,8 +128,8 @@ export default {
     onShowModal () {
       this.$refs.modal.show = true
     },
-    updateLoadImageStatus () {
-      this.isLoadingImage = !this.isLoadingImage
+    updateLoadImageKey () {
+      this.updataeKey += 1
     }
   },
 }

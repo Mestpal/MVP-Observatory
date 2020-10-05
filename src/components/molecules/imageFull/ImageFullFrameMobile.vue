@@ -12,19 +12,18 @@
       </v-card-title>
 
       <v-img
+        :key="updataeKey"
         :src="src"
         :height="isLandscape ? '75vh' : 'auto'"
         max-width="100vw"
         @load="showMenuButton"
       >
         <template #placeholder>
-          <v-row no-gutters>
-            <v-skeleton-loader
-              type="image"
-              height="80vh"
-              min-width="100vw"
-            />
-          </v-row>
+          <v-skeleton-loader
+            :height="$attrs['height'] || 'auto'"
+            type="image"
+            max-width="100%"
+          />
         </template>
       </v-img>
 
@@ -126,7 +125,8 @@ export default {
       isfullImageVisible: false,
       isMenuButtonVisible: false,
       isOverlayShown: false,
-      noDataMessage: 'No data'
+      noDataMessage: 'No data',
+      updataeKey: 0
     }
   },
   computed: {
@@ -151,8 +151,9 @@ export default {
     },
   },
   watch: {
-    src (){
+    src (newSrc, oldSrc){
       this.isMenuButtonVisible = false
+      if(newSrc !== oldSrc) this.updateLoadImageKey()
     }
   },
   methods: {
@@ -169,6 +170,9 @@ export default {
     },
     showMenuButton () {
       this.isMenuButtonVisible = true
+    },
+    updateLoadImageKey () {
+      this.updataeKey += 1
     }
   }
 }
